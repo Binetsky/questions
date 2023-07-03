@@ -2,10 +2,10 @@
  * Тип экземпляра результата опроса
  */
 export interface SurveyResult {
+  _id: string;
   key: string;
   meta: string;
   timestamp: number;
-  id: string;
   results: QuestionItem[];
 }
 

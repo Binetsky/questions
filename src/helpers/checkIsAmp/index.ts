@@ -1,1 +1,0 @@
-export { checkIsAmp } from './checkIsAmp';

@@ -1,12 +1,13 @@
 import React from 'react';
-import { ComponentWithChildren } from '@types';
 import { TabPanel } from '@frontend/uikit-rbc/TabPanel';
+import { TableBody } from '@layout/TableBody';
+import { ComponentWithChildren } from '@frontend/uikit-rbc/types';
 import styles from './styles.module.scss';
 
 export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
   const [currentTab, setCurrentTab] = React.useState(0);
 
-  const tabList = ['Опубликованные', 'Все опросы'];
+  const tabList = ['Опубликованные', 'Не опубликованные', 'Все'];
 
   const changeTab = (tab: number) => {
     setCurrentTab(tab);
@@ -21,7 +22,7 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
           changeTab={changeTab}
           className="p-b-24"
         />
-        {currentTab}
+        <TableBody />
       </div>
     </div>
   );

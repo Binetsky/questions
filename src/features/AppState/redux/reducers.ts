@@ -13,23 +13,6 @@ const appReducerHandlers: ReducerFactoryHandlersParam<AppStateParams> = {
   [AppActions.SetIsFetching]: (state, payload) => ({
     ...state, ...payload,
   }),
-  [AppActions.SetHostName]: (state, payload) => ({
-    ...state, ...payload,
-  }),
-  [AppActions.GetSubscribeChannels]: (state, payload) => ({
-    ...state,
-    subscribeChannelsInfo: payload.subscribeChannelsInfo,
-    isSubscribeChannelFetch: false,
-  }),
-  [AppActions.GetMasterTagsAction]: (state, payload) => ({
-    ...state, masterTags: payload.masterTags, isMasterTagsFetch: false,
-  }),
-  [AppActions.GetFoxVersion]: (state, payload) => ({
-    ...state, ...payload,
-  }),
-  [AppActions.GetSystemSettings]: (state, payload) => ({
-    ...state, ...payload,
-  }),
 };
 
 /**

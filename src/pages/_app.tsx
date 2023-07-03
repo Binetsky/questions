@@ -1,18 +1,13 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
 import { wrapper } from '@redux/store';
-import { AppContextProvider } from '@context';
-import { useRouteChange } from '@hooks/useRouteChange';
 import '../../public/news/index.scss';
+import { ErrorBoundary } from '@features/ErrorBoundary';
 
-const News = ({ Component, pageProps }: AppProps): JSX.Element => {
-  useRouteChange();
+const Alexandria = ({ Component, pageProps }: AppProps): JSX.Element => (
+  <ErrorBoundary>
+    <Component {...pageProps} />
+  </ErrorBoundary>
+);
 
-  return (
-    <AppContextProvider>
-      <Component {...pageProps} />
-    </AppContextProvider>
-  );
-};
-
-export default wrapper.withRedux(News);
+export default wrapper.withRedux(Alexandria);
