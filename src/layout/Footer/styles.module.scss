@@ -1,0 +1,10 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  width: 100%;
+  padding: 24px;
+  background-color: var(--bg-01-light-variable);
+  border-top: 1px solid var(--stroke-02-light-variable);
+}

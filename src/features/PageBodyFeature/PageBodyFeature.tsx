@@ -1,4 +1,6 @@
 import React from 'react';
+import { Header } from '@layout/Header';
+import { Footer } from '@layout/Footer';
 import type { PageBodyFeatureProps } from './types';
 
 /**
@@ -12,7 +14,9 @@ export const PageBodyFeature: React.FC<PageBodyFeatureProps> = (props) => {
   return (
     <>
       <div className="page">
+        <Header />
         {children}
+        <Footer />
       </div>
 
       <div className="detect-device" />

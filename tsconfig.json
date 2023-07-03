@@ -21,6 +21,8 @@
       "@context": ["src/context"],
       "@features": ["src/features"],
       "@features/*": ["src/features/*"],
+      "@layout": ["src/layout"],
+      "@layout/*": ["src/layout/*"],
       "@helpers": ["src/helpers"],
       "@helpers/*": ["src/helpers/*"],
       "@hooks": ["src/hooks"],
