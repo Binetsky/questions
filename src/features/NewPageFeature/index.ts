@@ -1,0 +1,1 @@
+export { NewPageFeature } from './NewPageFeature';

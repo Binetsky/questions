@@ -1,0 +1,20 @@
+.main {
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+  background-color: var(--bg-02-light-variable);
+
+  &-content {
+    max-width: 1440px;
+  }
+}
+
+.group, .question, .answer, .intro-and-outro {
+  padding: 24px;
+  border: 1px solid var(--stroke-02-light-variable);
+  border-radius: 8px;
+}
+
+.question, .intro-and-outro {
+  background-color: var(--bg-01-light-variable);
+}

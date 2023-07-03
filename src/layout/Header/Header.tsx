@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
         <RaLink
           LibraryLink={Link}
           href="/new"
-          classList="button primary sm m-r-16 m-y-8"
+          classList="button tertiary sm m-r-16 m-y-8"
         >
           + Новый опрос
         </RaLink>

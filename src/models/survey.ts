@@ -5,6 +5,8 @@ import { Schema } from 'mongoose';
  */
 export interface SurveyItem {
   _id: string;
+  minAnswers: number;
+  maxAnswers: number;
   createTimestamp: number;
   firstPublishTimestamp: number | null;
   publishTimestamp: number | null;
@@ -38,6 +40,14 @@ interface GroupItem extends CommonContent {
 }
 
 export const ChatsList = new Schema<SurveyItem>({
+  minAnswers: {
+    type: Number,
+    required: true,
+  },
+  maxAnswers: {
+    type: Number,
+    required: true,
+  },
   createTimestamp: {
     type: Number,
     required: true,
