@@ -1,0 +1,12 @@
+.stroke {
+  border-color: var(--stroke-01-light-variable);
+
+  &-x,
+  &-y,
+  &-t,
+  &-r,
+  &-b,
+  &-l {
+    border-color: var(--stroke-01-light-variable);
+  }
+}

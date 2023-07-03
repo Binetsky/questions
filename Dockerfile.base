@@ -1,0 +1,8 @@
+FROM nexus.infra.rbc.ru/base/node:v16.9.1-5 AS deps
+WORKDIR /app
+COPY package.json ./
+COPY package-lock.json ./
+COPY .npmrc ./
+ENV NODE_ENV production
+RUN npm set-script prepare ""
+RUN npm ci && yum clean all && rm -rf /root/.npm

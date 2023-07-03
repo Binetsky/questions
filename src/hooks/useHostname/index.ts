@@ -1,0 +1,1 @@
+export { useHostname } from './useHostname';

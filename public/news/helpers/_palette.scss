@@ -1,0 +1,18 @@
+:root,
+.dark {
+  --grey-04: #f8f8f8;
+
+  --life-light-variable: var(--grey-92);
+  --life-light-variable-hover: var(--grey-88);
+
+  --life-dark-variable: var(--white);
+  --life-dark-variable-hover: var(--grey-04);
+
+  --life-light-fixed: var(--grey-92);
+  --life-light-fixed-hover: var(--grey-88);
+
+  --life-dark-fixed: var(--white);
+  --life-dark-fixed-hover: var(--grey-04);
+
+  --gradient-bottom-to-top: linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(0, 0, 0, 0.88) 100%);
+}

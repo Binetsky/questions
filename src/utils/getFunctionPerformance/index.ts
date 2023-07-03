@@ -1,0 +1,1 @@
+export { getFunctionPerformance } from './getFunctionPerformance';

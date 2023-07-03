@@ -1,0 +1,40 @@
+@import '~normalize.css/normalize.css';
+
+// Компоненты и хелперы кита
+@import './uikit-import';
+
+// Шрифты
+@import '~@frontend/uikit-rbc/styles/fonts/icons/font/style';
+@import '~@frontend/uikit-rbc/styles/fonts/GraphikRBCLC';
+// Локальные стили
+@import 'helpers/index';
+@import 'components/index';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-02-light-variable);
+}
+
+button {
+  border: 0;
+  outline: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}

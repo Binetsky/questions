@@ -1,0 +1,12 @@
+.tag {
+  border-radius: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  &.active {
+    border-color: var(--success-01-light-variable);
+  }
+}

@@ -1,0 +1,17 @@
+.elevation {
+  &-4 {
+    box-shadow: 0 1px 3px rgba(16, 16, 16, 0.08);
+  }
+
+  &-8 {
+    box-shadow: 0 2px 6px rgba(16, 16, 16, 0.08);
+  }
+
+  &-16 {
+    box-shadow: 0 4px 12px rgba(16, 16, 16, 0.08);
+  }
+
+  &-32 {
+    box-shadow: 0 8px 24px rgba(16, 16, 16, 0.08);
+  }
+}

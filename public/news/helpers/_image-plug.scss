@@ -1,0 +1,9 @@
+.image-plug {
+  background: url($staticContentUrl + '/icons/svg/common/rbc-plug-ico-2.svg') no-repeat center var(--fill-01-light-variable);
+  border: 1px solid var(--stroke-04-light-variable);
+}
+
+.image-plug-dark {
+  background: url($staticContentUrl + '/icons/svg/common/rbc-plug-ico-dark.svg') no-repeat center var(--white-88);
+  border: 1px solid var(--white-88);
+}

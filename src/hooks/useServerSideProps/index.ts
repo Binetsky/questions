@@ -1,0 +1,1 @@
+export { useServerSideProps } from './useServerSideProps';

@@ -1,0 +1,1 @@
+export { detectIsDevMode } from './detectIsDevMode';

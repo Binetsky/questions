@@ -1,0 +1,1 @@
+export { getWordDeclension } from './getWordDeclension';

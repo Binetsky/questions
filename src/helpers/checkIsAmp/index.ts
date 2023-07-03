@@ -1,0 +1,1 @@
+export { checkIsAmp } from './checkIsAmp';

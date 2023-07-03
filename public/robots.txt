@@ -1,0 +1,15 @@
+User-Agent: *
+Allow: /
+
+User-agent: GoogleBot-News
+Allow: /
+
+User-agent: GoogleBot
+Allow: /
+
+User-agent: Yandex
+Disallow: /
+Clean-param: from&utm_source&google_editors_picks&&utm_medium&utm_campaign&utm_term
+Clean-param: xtor&print&google_preview&fromtg&nw
+
+Sitemap: https://rbclife.ru/sitemap_index.xml

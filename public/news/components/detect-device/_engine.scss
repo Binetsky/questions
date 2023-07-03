@@ -1,0 +1,39 @@
+.detect-device {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    visibility: hidden;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    // Mobile
+    @media (max-width: 659px) {
+      content: 'mobile';
+    }
+    // END Mobile
+
+    // Tablet portrait
+    @media (min-width: 660px) and (max-width: 959px) {
+      content: 'tabletPortrait';
+    }
+    // END Tablet portrait
+
+    // Tablet landscape
+    @media (min-width: 960px) and (max-width: 1259px) {
+      content: 'tabletLandscape';
+    }
+    // END Tablet landscape
+
+    // Desktop small
+    @media (min-width: 1260px) and (max-width: 1440px) {
+      content: 'desktopSmall';
+    }
+    // END Desktop small
+
+    // Desktop large
+    @media (min-width: 1441px) {
+      content: 'desktopLarge';
+    }
+  }
+}
