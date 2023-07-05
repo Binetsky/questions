@@ -68,7 +68,9 @@
     "jest": "27.3.1",
     "lint-staged": "11.1.2",
     "redux-mock-store": "^1.5.4",
-    "ts-jest": "27.0.7"
+    "ts-jest": "27.0.7",
+    "stylelint": "^14.16.0",
+    "stylelint-config-standard-scss": "^6.1.0"
   },
   "repository": {
     "type": "git",

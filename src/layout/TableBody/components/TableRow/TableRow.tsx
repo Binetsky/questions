@@ -6,7 +6,11 @@ export const TableRow: React.FC = () => (
   <tr>
     <td>1</td>
     <td>
-      <RaLink LibraryLink={Link} href="#" classList="link secondary">
+      <RaLink
+        LibraryLink={Link}
+        href="/status/1"
+        classList="link secondary"
+      >
         Название
       </RaLink>
     </td>
@@ -15,11 +19,29 @@ export const TableRow: React.FC = () => (
     <td>21 января 2023 г.</td>
     <td>-</td>
     <td>
-      <button type="button" className="button xs tertiary m-r-4" title="Скопировать ссылку API" onClick={() => null}>
-        API
+      <button
+        type="button"
+        className="button xs tertiary m-r-4 m-b-4"
+        title="Скопировать ссылку API"
+        onClick={() => null}
+      >
+        Редактировать
       </button>
-      <button type="button" className="button xs tertiary m-r-4" title="Скопировать ссылку на страницу опроса" onClick={() => null}>
-        Страница
+      <button
+        type="button"
+        className="button xs tertiary m-r-4 m-b-4"
+        title="Скопировать ссылку API"
+        onClick={() => null}
+      >
+        Ссылка API
+      </button>
+      <button
+        type="button"
+        className="button xs tertiary m-r-4 m-b-4"
+        title="Скопировать ссылку на страницу опроса"
+        onClick={() => null}
+      >
+        Ссылка опроса
       </button>
     </td>
   </tr>

@@ -17,7 +17,7 @@ export const TableBody = (props: TableBodyProps) => {
           <col width="160px" />
           <col width="160px" />
           <col width="160px" />
-          <col width="320px" />
+          <col width="340px" />
         </colgroup>
         <thead>
           <tr>

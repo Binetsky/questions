@@ -10,7 +10,16 @@ export const Answer = () => {
 
   return (
     <div className={`${styles.answer} m-b-24`}>
-      <div className="headline-5">Ответ 1</div>
+      <div className="headline-5">
+        Ответ 1
+        <button
+          type="button"
+          className="button sm tertiary square m-l-12"
+          onClick={() => null}
+        >
+          <i className="ra-icon-trash" />
+        </button>
+      </div>
       <div className="caption-2 p-b-8">answerId: asfdlkfn</div>
       <div className="flex flex-middle">
         <DropdownSelect

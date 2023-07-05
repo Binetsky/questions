@@ -9,7 +9,16 @@ export const Title = () => {
 
   return (
     <div className={`${styles['group-title']} p-b-24`}>
-      <div className="headline-4">Группа 1</div>
+      <div className="headline-4">
+        Группа 1
+        <button
+          type="button"
+          className="button sm tertiary square m-l-12"
+          onClick={() => null}
+        >
+          <i className="ra-icon-trash" />
+        </button>
+      </div>
       <div className="caption-2 p-b-8">groupId: asfdlkfn</div>
       <div className="flex flex-middle p-b-12">
         <div className="m-r-12">Заголовок</div>

@@ -1,0 +1,10 @@
+.main {
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+  background-color: var(--bg-02-light-variable);
+
+  &-content {
+    max-width: 1440px;
+  }
+}

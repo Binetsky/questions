@@ -39,7 +39,12 @@ export const Question = () => {
 
       <Answer />
 
-      <button type="button" className="button md tertiary">+ Вариант ответа</button>
+      <button
+        type="button"
+        className="button md tertiary"
+      >
+        + Вариант ответа
+      </button>
     </div>
   );
 };

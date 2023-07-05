@@ -1,0 +1,14 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "string-quotes": "single",
+    "scss/at-extend-no-missing-placeholder": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/at-mixin-pattern": null,
+    "property-no-vendor-prefix": null,
+    "selector-no-vendor-prefix": null,
+    "scss/no-global-function-names": null,
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number"
+  }
+}

@@ -8,6 +8,7 @@ export interface SurveyItem {
   minAnswers: number;
   maxAnswers: number;
   createTimestamp: number;
+  author: string;
   firstPublishTimestamp: number | null;
   publishTimestamp: number | null;
   intro: CommonContent;
@@ -46,6 +47,10 @@ export const ChatsList = new Schema<SurveyItem>({
   },
   maxAnswers: {
     type: Number,
+    required: true,
+  },
+  author: {
+    type: String,
     required: true,
   },
   createTimestamp: {

@@ -34,7 +34,13 @@ export const Header: React.FC = () => {
         </RaLink>
       </nav>
 
-      <RaLink LibraryLink={Link} href="/" classList={`${styles['header-title']}m-r-16 m-y-12 headline-4-short`}>РБК | Опросы</RaLink>
+      <RaLink
+        LibraryLink={Link}
+        href="/"
+        classList={`${styles['header-title']}m-r-16 m-y-12 headline-4-short`}
+      >
+        РБК // Опросы
+      </RaLink>
     </div>
   );
 };
