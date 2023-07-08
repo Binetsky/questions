@@ -5,8 +5,6 @@ import { Schema } from 'mongoose';
  */
 export interface SurveyItem {
   _id: string;
-  minAnswers: number;
-  maxAnswers: number;
   createTimestamp: number;
   author: string;
   firstPublishTimestamp: number | null;
@@ -28,12 +26,14 @@ interface CommonContent {
 interface QuestionItem extends CommonContent {
   id: string;
   group: GroupItem;
-  answerType: 'single' | 'multiple' | 'open';
   answers: AnswerItem[];
+  minAnswers: number;
+  maxAnswers: number;
 }
 
 interface AnswerItem extends CommonContent {
   id: string;
+  answerType: 'closed' | 'open';
 }
 
 interface GroupItem extends CommonContent {
@@ -41,14 +41,6 @@ interface GroupItem extends CommonContent {
 }
 
 export const ChatsList = new Schema<SurveyItem>({
-  minAnswers: {
-    type: Number,
-    required: true,
-  },
-  maxAnswers: {
-    type: Number,
-    required: true,
-  },
   author: {
     type: String,
     required: true,
@@ -103,17 +95,19 @@ export const ChatsList = new Schema<SurveyItem>({
   questions: {
     type: [{
       id: String,
+      minAnswers: Number,
+      maxAnswers: Number,
       group: {
         id: String,
         title: String,
         description: String || null,
         image: String || null,
       },
-      answerType: 'single' || 'multiple' || 'open',
       answers: [{
         id: String,
         title: String,
         description: String || null,
+        answerType: 'closed' || 'open',
         image: String || null,
       }],
     }],

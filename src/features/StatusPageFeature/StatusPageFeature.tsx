@@ -4,15 +4,15 @@ import { ComponentWithChildren } from '@frontend/uikit-rbc/types';
 import { SummaryInfo } from '@features/StatusPageFeature/components/SummaryInfo';
 import { StatusGroupContainer } from '@features/StatusPageFeature/components/StatusGroupContainer';
 import { DetailedStatusCard } from '@features/StatusPageFeature/components/DetailedStatusCard';
-import { Radio } from '@frontend/uikit-rbc/Radio';
-import { FormElementSizes } from '@frontend/uikit-rbc/constants';
-import { InputType } from '@frontend/uikit-rbc/InputField/constants';
-import { InputField } from '@frontend/uikit-rbc/InputField';
 import { DetailedStatusFilter } from '@features/StatusPageFeature/components/DetailedStatusFilter';
 import styles from './styles.module.scss';
 
+/**
+ * Страница просмотра статистики по опросу
+ * @returns React.FC<ComponentWithChildren>
+ */
 export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
-  const [currentTab, setCurrentTab] = React.useState(1);
+  const [currentTab, setCurrentTab] = React.useState(0);
 
   const tabList = ['Сводная статистика', 'Все ответы'];
 
