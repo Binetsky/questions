@@ -1,4 +1,4 @@
-import { HttpMethods } from 'src/constants/api';
+import { HttpMethods } from '@constants';
 import { deleteDocument } from './deleteDocument';
 import { saveDocument } from './saveDocument';
 import { getCollection } from './getCollection';
@@ -23,7 +23,7 @@ export const apiHandler = async ({ req, res, collectionName }: ApiHandlerParams)
   if (req.method === HttpMethods.Delete) {
     const deletedDocument = JSON.parse(req.body);
 
-    await deleteDocument({ deletedDocument, res, collectionName });
+    await deleteDocument({ deletedDocumentId: deletedDocument.id, res, collectionName });
     return true;
   }
 

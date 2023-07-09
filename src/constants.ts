@@ -6,11 +6,20 @@ const { publicRuntimeConfig } = getConfig();
  * Константы хранящие значения из переменных окружения
  */
 export const {
-  RBC_ENVIRONMENT,
+  MONGODB_URI,
+  MONGODB_DB_NAME,
 } = publicRuntimeConfig || {};
 
 export enum HttpMethods {
   Get = 'GET',
   Post = 'POST',
   Delete = 'DELETE',
+}
+
+export enum Collections {
+  Surveys = 'surveys',
+}
+
+export enum ApiEndpoints {
+  SurveysAdmin = '/api/admin/surveys',
 }

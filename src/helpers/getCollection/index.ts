@@ -1,1 +1,0 @@
-export { getCollection } from './getCollection';

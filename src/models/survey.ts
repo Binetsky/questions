@@ -4,7 +4,7 @@ import { Schema } from 'mongoose';
  * Тип экземпляра опроса
  */
 export interface SurveyItem {
-  _id: string;
+  _id?: string;
   createTimestamp: number;
   author: string;
   firstPublishTimestamp: number | null;
@@ -12,6 +12,7 @@ export interface SurveyItem {
   intro: CommonContent;
   outro: CommonContent;
   questions: QuestionItem[];
+  answers: AnswerItem[];
   groups: GroupItem[];
   isArchived: boolean;
   isPublished: boolean;
@@ -19,25 +20,26 @@ export interface SurveyItem {
 
 interface CommonContent {
   title: string;
-  description?: string;
-  image?: string;
+  description: string | null;
+  image: string | null;
 }
 
 interface QuestionItem extends CommonContent {
-  id: string;
-  group: GroupItem;
-  answers: AnswerItem[];
+  id: number;
+  groupId: number;
   minAnswers: number;
   maxAnswers: number;
 }
 
 interface AnswerItem extends CommonContent {
-  id: string;
+  id: number;
+  questionId: number;
+  groupId: number;
   answerType: 'closed' | 'open';
 }
 
 interface GroupItem extends CommonContent {
-  id: string;
+  id: number;
 }
 
 export const ChatsList = new Schema<SurveyItem>({
@@ -85,7 +87,7 @@ export const ChatsList = new Schema<SurveyItem>({
   },
   groups: {
     type: [{
-      id: String,
+      id: Number,
       title: String,
       description: String || null,
       image: String || null,
@@ -94,22 +96,23 @@ export const ChatsList = new Schema<SurveyItem>({
   },
   questions: {
     type: [{
-      id: String,
+      id: Number,
+      groupId: Number,
       minAnswers: Number,
       maxAnswers: Number,
-      group: {
-        id: String,
-        title: String,
-        description: String || null,
-        image: String || null,
-      },
-      answers: [{
-        id: String,
-        title: String,
-        description: String || null,
-        answerType: 'closed' || 'open',
-        image: String || null,
-      }],
+      title: String,
+      description: String || null,
+    }],
+    required: true,
+  },
+  answers: {
+    type: [{
+      id: Number,
+      questionId: Number,
+      groupId: Number,
+      title: String,
+      answerType: 'closed' || 'open',
+      image: String || null,
     }],
     required: true,
   },
