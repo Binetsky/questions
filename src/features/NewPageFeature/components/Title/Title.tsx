@@ -8,10 +8,10 @@ import { InputFieldController } from '@layout/InputFieldController';
 interface TitleProps {
   control: Control<FieldValues, unknown>;
   header: string;
-  id: number | string;
+  id: number;
   titlePlaceholder: string;
   subtitlePlaceholder: string;
-  deleteButtonHandler?: (id: string | number) => void;
+  deleteButtonHandler?: (id: number) => void;
 }
 
 /**

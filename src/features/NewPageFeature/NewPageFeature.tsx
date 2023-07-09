@@ -4,8 +4,8 @@ import { IntroAndOutro } from '@features/NewPageFeature/components/IntroAndOutro
 import { FieldValues, useForm } from 'react-hook-form';
 import { ControlPanel } from '@features/NewPageFeature/components/ControlPanel';
 import { Group } from '@features/NewPageFeature/components/Group';
-import { initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
-import { BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
+import { initialAnswer, initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
+import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
 import { generateId } from '@utils/generateId';
 import styles from './styles.module.scss';
 
@@ -16,6 +16,7 @@ import styles from './styles.module.scss';
 export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
   const [groupArray, setGroupArray] = React.useState<BasicGroupProps[]>([]);
   const [questionArray, setQuestionArray] = React.useState<BasicQuestionProps[]>([]);
+  const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
   const { control, handleSubmit } = useForm({});
 
   const handleSave = (data: FieldValues) => {
@@ -27,13 +28,9 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
     console.log('handleSaveAndPublish');
   };
 
-  React.useEffect(() => {
-    setGroupArray([initialGroup]);
-    setQuestionArray([initialQuestion]);
-  }, []);
-
   const addGroupHandler = () => {
     const groupId = generateId();
+    const questionId = generateId();
 
     setGroupArray([
       ...groupArray,
@@ -46,20 +43,77 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
     setQuestionArray([
       ...questionArray,
       {
+        id: questionId,
         type: 'question',
         groupId,
-        answers: [{
-          type: 'answer',
-          id: generateId(),
-        }],
+      },
+    ]);
+
+    setAnswersArray([
+      ...answersArray,
+      {
+        id: generateId(),
+        questionId,
+        groupId,
+        type: 'answer',
       },
     ]);
   };
 
-  const deleteGroupHandler = (idParam: string | number) => {
+  const deleteGroupHandler = (idParam: number) => {
     setGroupArray(groupArray.filter((groupItem) => groupItem.id !== idParam));
     setQuestionArray(questionArray.filter((questionItem) => questionItem.groupId !== idParam));
   };
+
+  const addQuestionHandler = (groupIdParam: number) => {
+    const questionId = generateId();
+
+    setQuestionArray([
+      ...questionArray,
+      {
+        id: questionId,
+        groupId: groupIdParam,
+        type: 'question',
+      },
+    ]);
+
+    setAnswersArray([
+      ...answersArray,
+      {
+        id: generateId(),
+        questionId,
+        groupId: groupIdParam,
+        type: 'answer',
+      },
+    ]);
+  };
+
+  const deleteQuestionHandler = (idParam: number) => {
+    setQuestionArray(questionArray.filter((questionItem) => questionItem.id !== idParam));
+    setAnswersArray(answersArray.filter((answerItem) => answerItem.questionId !== idParam));
+  };
+
+  const addAnswerHandler = ({ questionIdParam, groupIdParam }: { questionIdParam: number; groupIdParam: number }) => {
+    setAnswersArray([
+      ...answersArray,
+      {
+        id: generateId(),
+        questionId: questionIdParam,
+        groupId: groupIdParam,
+        type: 'answer',
+      },
+    ]);
+  };
+
+  const deleteAnswerHandler = (idParam: number) => {
+    setAnswersArray(answersArray.filter((answerItem) => answerItem.id !== idParam));
+  };
+
+  React.useEffect(() => {
+    setGroupArray([initialGroup]);
+    setQuestionArray([initialQuestion]);
+    setAnswersArray([initialAnswer]);
+  }, []);
 
   return (
     <div className={styles.main}>
@@ -71,7 +125,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
 
         <IntroAndOutro
           control={control}
-          id="intro"
+          id={0}
           header="Вступление"
           titlePlaceholder={'Например, "Пройдите наш замечательный опрос"'}
           subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
@@ -79,7 +133,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
 
         <IntroAndOutro
           control={control}
-          id="outro"
+          id={1}
           header="Заключение"
           titlePlaceholder={'Например, "Спасибо за прохождение нашего замечательного опроса"'}
           subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
@@ -90,10 +144,15 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
             control={control}
             placeNumber={index + 1}
             questionArray={questionArray}
+            answersArray={answersArray}
             id={groupItem.id}
             type={groupItem.type}
             deleteGroupHandler={deleteGroupHandler}
             key={groupItem.id}
+            addQuestionHandler={addQuestionHandler}
+            deleteQuestionHandler={deleteQuestionHandler}
+            addAnswerHandler={addAnswerHandler}
+            deleteAnswerHandler={deleteAnswerHandler}
           />
         ))}
 

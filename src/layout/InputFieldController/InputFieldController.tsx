@@ -4,7 +4,7 @@ import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import React from 'react';
 
-interface InputFileControllerProps {
+interface InputFieldControllerProps {
   name: string;
   control: Control<FieldValues, unknown>;
   placeholder: string;
@@ -21,7 +21,7 @@ interface InputFileControllerProps {
  * @param props InputFileControllerProps
  * @returns React.FC
  */
-export const InputFieldController: React.FC<InputFileControllerProps> = (props) => {
+export const InputFieldController: React.FC<InputFieldControllerProps> = (props) => {
   const {
     name, control, isRequired, isDisabled, placeholder, size, type, style, defaultValue,
   } = props;

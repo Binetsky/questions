@@ -6,7 +6,7 @@ import { Control, FieldValues } from 'react-hook-form';
 interface IntroAndOutroProps {
   control: Control<FieldValues, unknown>;
   header: string;
-  id: number | string;
+  id: number;
   titlePlaceholder: string;
   subtitlePlaceholder: string;
 }

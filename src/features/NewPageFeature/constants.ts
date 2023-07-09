@@ -1,22 +1,26 @@
 import { generateId } from '@utils/generateId';
-import { BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
+import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
 
 const groupId = generateId();
+const questionId = generateId();
 
 /**
  * Базовый объект группы вопросов
  */
 export const initialGroup: BasicGroupProps = {
-  type: 'group',
   id: groupId,
+  type: 'group',
 };/**
  * Базовый объект вопроса
  */
 export const initialQuestion: BasicQuestionProps = {
+  id: questionId,
   type: 'question',
   groupId,
-  answers: [{
-    type: 'answer',
-    id: generateId(),
-  }],
+};
+
+export const initialAnswer: BasicAnswerProps = {
+  id: generateId(),
+  type: 'answer',
+  questionId,
 };

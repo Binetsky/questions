@@ -11,38 +11,47 @@ import { GroupProps } from '@features/NewPageFeature/types';
  */
 export const Group: React.FC<GroupProps> = (props) => {
   const {
-    control, placeNumber, questionArray, id, deleteGroupHandler,
+    control, placeNumber, questionArray, id, deleteGroupHandler, addQuestionHandler, deleteQuestionHandler, answersArray,
+    addAnswerHandler, deleteAnswerHandler,
   } = props;
   const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === id);
 
   return (
-    <div className={`${styles.group} m-b-24`}>
+    <fieldset
+      className={`${styles.group} m-b-24`}
+      id={`group-fieldset-${id}`}
+    >
       <Title
         control={control}
         id={id}
         header={`Группа ${placeNumber}`}
-        subtitlePlaceholder="Озаглавьте группу вопросов, чтобы респондент с чем ему придется иметь дело далее"
-        titlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
+        titlePlaceholder="Озаглавьте группу вопросов, чтобы респондент с чем ему придется иметь дело далее"
+        subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         deleteButtonHandler={placeNumber !== 1 ? deleteGroupHandler : undefined}
       />
 
       {currentQuestions && currentQuestions.map((questionItem, index) => (
         <Question
           control={control}
+          answersArray={answersArray}
           placeNumber={index + 1}
+          id={questionItem.id}
           groupId={id}
-          answers={questionItem.answers}
           type={questionItem.type}
           key={id}
+          deleteQuestionHandler={deleteQuestionHandler}
+          addAnswerHandler={addAnswerHandler}
+          deleteAnswerHandler={deleteAnswerHandler}
         />
       ))}
 
       <button
         type="button"
         className="button md tertiary"
+        onClick={() => addQuestionHandler(id)}
       >
         + Вопрос
       </button>
-    </div>
+    </fieldset>
   );
 };

@@ -4,7 +4,6 @@ import { Answer } from '@features/NewPageFeature/components/Answer';
 import { Title } from '@features/NewPageFeature/components/Title';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
-import { generateId } from '@utils/generateId';
 import { QuestionProps } from '@features/NewPageFeature/types';
 import { InputFieldController } from '@layout/InputFieldController';
 
@@ -14,11 +13,14 @@ import { InputFieldController } from '@layout/InputFieldController';
  * @returns React.FC
  */
 export const Question: React.FC<QuestionProps> = (props) => {
-  const { control, placeNumber, answers } = props;
-  const id = generateId();
+  const {
+    control, placeNumber, id, deleteQuestionHandler, answersArray, groupId, addAnswerHandler, deleteAnswerHandler,
+  } = props;
 
-  const deleteButtonHandler = (idParam: string | number) => {
-    console.log(idParam);
+  const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === id);
+
+  const deleteButtonHandler = (idParam: number) => {
+    deleteQuestionHandler(idParam);
   };
 
   return (
@@ -26,8 +28,8 @@ export const Question: React.FC<QuestionProps> = (props) => {
       <Title
         id={id}
         control={control}
-        subtitlePlaceholder="Здесь укажите вопрос"
-        titlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
+        titlePlaceholder="Здесь укажите вопрос"
+        subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         header={`Вопрос ${placeNumber}`}
         deleteButtonHandler={placeNumber !== 1 ? deleteButtonHandler : undefined}
       />
@@ -62,19 +64,23 @@ export const Question: React.FC<QuestionProps> = (props) => {
         />
       </div>
 
-      {answers.map((answerItem, index) => (
+      {filteredAnswers.map((answerItem, index) => (
         <Answer
           control={control}
           placeNumber={index + 1}
           id={answerItem.id}
           type={answerItem.type}
+          groupId={groupId}
+          questionId={id}
           key={answerItem.id}
+          deleteAnswerHandler={deleteAnswerHandler}
         />
       ))}
 
       <button
         type="button"
         className="button md tertiary"
+        onClick={() => addAnswerHandler({ questionIdParam: id, groupIdParam: groupId })}
       >
         + Вариант ответа
       </button>

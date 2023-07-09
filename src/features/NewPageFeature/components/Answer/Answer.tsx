@@ -1,11 +1,11 @@
 import styles from '@features/NewPageFeature/styles.module.scss';
-import { DropdownSelect } from '@frontend/uikit-rbc/DropdownSelect';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import React from 'react';
 import { DropdownSelectOptions } from '@frontend/uikit-rbc/DropdownSelect/types';
 import { InputFieldController } from '@layout/InputFieldController';
 import { AnswerProps } from '@features/NewPageFeature/types';
+import { DropdownSelectController } from '@layout/DropdownSelectController';
 
 /**
  * Компонент заполнения ответов на вопросы
@@ -13,7 +13,9 @@ import { AnswerProps } from '@features/NewPageFeature/types';
  * @returns React.FC
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
-  const { control, id, placeNumber } = props;
+  const {
+    control, id, placeNumber, deleteAnswerHandler,
+  } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
 
   const isQuestionOpen = answerType.value === 'open';
@@ -24,8 +26,8 @@ export const Answer: React.FC<AnswerProps> = (props) => {
     }
   };
 
-  const deleteButtonHandler = (idParam: string | number) => {
-    console.log(idParam);
+  const deleteButtonHandler = (idParam: number) => {
+    deleteAnswerHandler(idParam);
   };
 
   return (
@@ -50,16 +52,11 @@ export const Answer: React.FC<AnswerProps> = (props) => {
         {id}
       </div>
       <div className="flex flex-middle">
-        <DropdownSelect
-          onChange={answerTypeChangeHandler}
-          options={[
-            { name: 'Закрытый ответ', value: 'closed' },
-            { name: 'Открытый ответ', value: 'open' },
-          ]}
-          value={answerType}
-          theme="linear"
-          placeholder="Тип ответа"
-          className="w-20 m-r-12"
+        <DropdownSelectController
+          name={`answer-type-${id}`}
+          control={control}
+          isRequired={false}
+          onChangeHandler={answerTypeChangeHandler}
         />
         <InputFieldController
           control={control}
