@@ -28,6 +28,8 @@ export const Group: React.FC<GroupProps> = (props) => {
         titlePlaceholder="Озаглавьте группу вопросов, чтобы респондент с чем ему придется иметь дело далее"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         deleteButtonHandler={placeNumber !== 1 ? deleteGroupHandler : undefined}
+        titleName={`group-title-${id}`}
+        subtitleName={`group-subtitle-${id}`}
       />
 
       {currentQuestions && currentQuestions.map((questionItem, index) => (

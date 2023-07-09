@@ -32,13 +32,15 @@ export const Question: React.FC<QuestionProps> = (props) => {
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         header={`Вопрос ${placeNumber}`}
         deleteButtonHandler={placeNumber !== 1 ? deleteButtonHandler : undefined}
+        titleName={`question-title-${groupId}-${id}`}
+        subtitleName={`question-subtitle-${groupId}-${id}`}
       />
 
       <div className="flex flex-middle p-b-12">
         <div className="m-r-12">Минимум возможных ответов</div>
         <InputFieldController
           control={control}
-          name={`question-min-answers-${id}`}
+          name={`question-min-answers-${groupId}-${id}`}
           placeholder=""
           size={FormElementSizes.Medium}
           type={InputType.Text}
@@ -53,7 +55,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
         <div className="m-r-12">Максимум возможных ответов</div>
         <InputFieldController
           control={control}
-          name={`question-max-answers-${id}`}
+          name={`question-max-answers-${groupId}-${id}`}
           placeholder=""
           size={FormElementSizes.Medium}
           type={InputType.Text}

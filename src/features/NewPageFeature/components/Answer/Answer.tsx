@@ -14,7 +14,7 @@ import { DropdownSelectController } from '@layout/DropdownSelectController';
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
   const {
-    control, id, placeNumber, deleteAnswerHandler,
+    control, id, placeNumber, deleteAnswerHandler, groupId, questionId,
   } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
 
@@ -53,14 +53,14 @@ export const Answer: React.FC<AnswerProps> = (props) => {
       </div>
       <div className="flex flex-middle">
         <DropdownSelectController
-          name={`answer-type-${id}`}
+          name={`answer-type-${groupId}-${questionId}-${id}`}
           control={control}
           isRequired={false}
           onChangeHandler={answerTypeChangeHandler}
         />
         <InputFieldController
           control={control}
-          name={`group-subtitle-${id}`}
+          name={`answer-${groupId}-${questionId}-${id}`}
           placeholder={isQuestionOpen ? 'Ответ напишет сам респондент' : 'Напишите вариант ответа'}
           size={FormElementSizes.Medium}
           type={InputType.Text}

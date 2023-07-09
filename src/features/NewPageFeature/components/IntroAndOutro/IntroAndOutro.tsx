@@ -9,6 +9,8 @@ interface IntroAndOutroProps {
   id: number;
   titlePlaceholder: string;
   subtitlePlaceholder: string;
+  titleName: string;
+  subtitleName: string;
 }
 
 /**
@@ -18,7 +20,7 @@ interface IntroAndOutroProps {
  */
 export const IntroAndOutro: React.FC<IntroAndOutroProps> = (props) => {
   const {
-    control, id, titlePlaceholder, subtitlePlaceholder, header,
+    control, id, titlePlaceholder, subtitlePlaceholder, header, titleName, subtitleName,
   } = props;
 
   return (
@@ -29,6 +31,8 @@ export const IntroAndOutro: React.FC<IntroAndOutroProps> = (props) => {
         header={header}
         titlePlaceholder={titlePlaceholder}
         subtitlePlaceholder={subtitlePlaceholder}
+        titleName={titleName}
+        subtitleName={subtitleName}
       />
     </div>
   );

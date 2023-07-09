@@ -32,7 +32,7 @@ export const InputFieldController: React.FC<InputFieldControllerProps> = (props)
       control={control}
       defaultValue={defaultValue}
       rules={{ required: isRequired }}
-      render={({ field: { onChange, value } }) => (
+      render={({ field: { onChange, value = '' } }) => (
         <InputField
           value={value as string}
           onChange={onChange}

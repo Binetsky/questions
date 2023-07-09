@@ -129,6 +129,8 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
           header="Вступление"
           titlePlaceholder={'Например, "Пройдите наш замечательный опрос"'}
           subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
+          titleName="intro-title"
+          subtitleName="intro-subtitle"
         />
 
         <IntroAndOutro
@@ -137,6 +139,8 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
           header="Заключение"
           titlePlaceholder={'Например, "Спасибо за прохождение нашего замечательного опроса"'}
           subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
+          titleName="outro-title"
+          subtitleName="outro-subtitle"
         />
 
         {groupArray.map((groupItem, index) => (

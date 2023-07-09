@@ -11,6 +11,8 @@ interface TitleProps {
   id: number;
   titlePlaceholder: string;
   subtitlePlaceholder: string;
+  titleName: string;
+  subtitleName: string;
   deleteButtonHandler?: (id: number) => void;
 }
 
@@ -21,7 +23,7 @@ interface TitleProps {
  */
 export const Title: React.FC<TitleProps> = (props) => {
   const {
-    control, id, titlePlaceholder, subtitlePlaceholder, deleteButtonHandler, header,
+    control, id, titlePlaceholder, subtitlePlaceholder, deleteButtonHandler, header, titleName, subtitleName,
   } = props;
 
   return (
@@ -47,7 +49,7 @@ export const Title: React.FC<TitleProps> = (props) => {
         <div className="m-r-12">Заголовок</div>
         <InputFieldController
           control={control}
-          name={`group-title-${id}`}
+          name={titleName}
           placeholder={titlePlaceholder}
           size={FormElementSizes.Medium}
           type={InputType.Text}
@@ -62,7 +64,7 @@ export const Title: React.FC<TitleProps> = (props) => {
         </div>
         <InputFieldController
           control={control}
-          name={`group-subtitle-${id}`}
+          name={subtitleName}
           placeholder={subtitlePlaceholder}
           size={FormElementSizes.Medium}
           type={InputType.Text}
