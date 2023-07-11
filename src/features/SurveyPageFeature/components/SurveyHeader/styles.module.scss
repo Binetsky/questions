@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  width: 100%;
+  padding: 0 24px;
+  background-color: var(--bg-01-light-variable);
+  border-bottom: 1px solid var(--stroke-02-light-variable);
+
+  &-nav {
+    flex: none;
+  }
+
+  &-progress-bar {
+    margin-left: 48px;
+    height: 4px;
+    width: 100%;
+    max-width: 320px;
+    background-color: var(--stroke-02-light-variable);
+    border-radius: 4px;
+  }
+
+  &-progress-line {
+    height: 4px;
+    width: 20%;
+    max-width: 300px;
+    background-color: var(--success-01-light-variable);
+    border-radius: 4px;
+  }
+}
