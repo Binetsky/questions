@@ -4,6 +4,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from './styles.module.scss';
 
+/**
+ * Компонент шапки страниц админки приложения
+ * @returns React.FC
+ */
 export const Header: React.FC = () => {
   const router = useRouter();
   const currentPage = router.pathname;
@@ -39,7 +43,7 @@ export const Header: React.FC = () => {
         href="/"
         classList={`${styles['header-title']}m-r-16 m-y-12 headline-4-short`}
       >
-        РБК // Опросы
+        РБК ✦ Опросы
       </RaLink>
     </div>
   );
