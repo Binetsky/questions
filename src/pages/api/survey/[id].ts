@@ -14,7 +14,7 @@ export default async function handler(
   // Todo: тут будет проверка на то что в req.headers был передан корректный token для доступа к апи
   if (false) {
     console.log(req.headers);
-    return res.status(403).end('Access denied. 403');
+    return res.status(403).end('403');
   }
 
   if (req.method === HttpMethods.Get && req.query.id) {
@@ -28,9 +28,9 @@ export default async function handler(
     }
 
     if (!currentDoc) {
-      return res.status(404).json('Not found. 404');
+      return res.status(404).json('404');
     }
   }
 
-  return res.status(404).json('Not found. 404');
+  return res.status(404).json('404');
 }

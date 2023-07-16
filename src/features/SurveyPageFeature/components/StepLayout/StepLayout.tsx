@@ -1,8 +1,11 @@
 import React from 'react';
 import styles from '@features/SurveyPageFeature/components/SurveyBody/styles.module.scss';
 import { Question } from '@features/SurveyPageFeature/components/Question';
+import { SurveyPageContext } from '@context/SurveyPageContext';
+import { GroupItem } from '@models/survey';
 
 interface StepLayoutProps {
+  group: GroupItem;
   currentStep: number;
   groupLength: number;
   changeLayoutHandler: () => void;
@@ -10,25 +13,27 @@ interface StepLayoutProps {
 
 /**
  * Компонент шага опроса
- * @param changeLayoutHandler - () => void
  * @param currentStep - number
- * @param groupLength - number
- * @constructor
+ * @param group - GroupItem
  */
-export const StepLayout: React.FC<StepLayoutProps> = ({ changeLayoutHandler, currentStep, groupLength }) => {
-  const questionsLength = 3;
-  const questions = [...Array(questionsLength)];
+export const StepLayout: React.FC<StepLayoutProps> = ({ currentStep, group }) => {
+  const { title, id, description = undefined } = group;
+  const { changeLayoutHandler, groupLength, survey: { questions } } = React.useContext(SurveyPageContext);
+  const filteredQuestions = questions.filter((questionItem) => questionItem.groupId === id);
 
   return (
     <div className={`${styles['body-layout-step']} w-100`}>
       <div className="headline-3">
         {currentStep}
-        . Название группы вопросов
+        .
+        {' '}
+        {title}
       </div>
-      <div className="body-4">Пояснение к группе вопросов</div>
+      {description && (<div className="body-4">{description}</div>)}
 
-      {questions.map((questionItem, index) => (
+      {filteredQuestions.length > 0 && filteredQuestions.map((questionItem, index) => (
         <Question
+          question={questionItem}
           key={index}
           currentQuestionNumber={index + 1}
         />

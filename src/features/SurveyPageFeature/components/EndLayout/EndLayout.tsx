@@ -1,18 +1,20 @@
 import styles from '@features/SurveyPageFeature/components/SurveyBody/styles.module.scss';
 import React from 'react';
+import { CommonContent } from '@models/survey';
 
 interface StartLayoutProps {
   changeLayoutHandler?: () => void;
+  content: CommonContent;
 }
 
 /**
  * Компонент стартового слайда опроса
  * @returns React.FC
  */
-export const EndLayout: React.FC<StartLayoutProps> = () => (
+export const EndLayout: React.FC<StartLayoutProps> = ({ content }) => (
   <div className={styles['body-layout-start']}>
-    <h1 className="headline-1 m-b-12">Спасибо за прохождение опроса!</h1>
-    <h2 className="body-1 m-b-24">Мы вам очень признательны</h2>
+    <h1 className="headline-1 m-b-12">{content.title}</h1>
+    {content.description && (<h2 className="body-1 m-b-24">{content.description}</h2>)}
     <a
       href="https://www.rbc.ru/"
       className="button lg secondary"

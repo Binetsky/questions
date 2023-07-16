@@ -16,5 +16,6 @@ module.exports = withBundleAnalyzer({
   publicRuntimeConfig: {
     MONGODB_URI: process.env.MONGODB_URI,
     MONGODB_DB_NAME: process.env.MONGODB_DB_NAME,
+    API_URL: process.env.API_URL,
   },
 });

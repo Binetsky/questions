@@ -18,27 +18,27 @@ export interface SurveyItem {
   isPublished: boolean;
 }
 
-interface CommonContent {
+export interface CommonContent {
   title: string;
   description: string | null;
   image: string | null;
 }
 
-interface QuestionItem extends CommonContent {
+export interface QuestionItem extends CommonContent {
   id: number;
   groupId: number;
   minAnswers: number;
   maxAnswers: number;
 }
 
-interface AnswerItem extends CommonContent {
+export interface AnswerItem extends CommonContent {
   id: number;
   questionId: number;
   groupId: number;
   answerType: 'closed' | 'open';
 }
 
-interface GroupItem extends CommonContent {
+export interface GroupItem extends CommonContent {
   id: number;
 }
 

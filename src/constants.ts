@@ -8,6 +8,7 @@ const { publicRuntimeConfig } = getConfig();
 export const {
   MONGODB_URI,
   MONGODB_DB_NAME,
+  API_URL,
 } = publicRuntimeConfig || {};
 
 export enum HttpMethods {
