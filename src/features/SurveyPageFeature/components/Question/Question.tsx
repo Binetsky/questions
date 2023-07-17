@@ -16,7 +16,23 @@ interface QuestionProps {
  */
 export const Question: React.FC<QuestionProps> = ({ currentQuestionNumber, question }) => {
   const { survey: { answers } } = React.useContext(SurveyPageContext);
+  const [activeAnswer, setActiveAnswer] = React.useState<number[]>([]);
   const filteredAnswers = answers.filter((answerItem) => answerItem.questionId === question.id);
+  const isMultiselect = question.maxAnswers !== 1;
+
+  const handleAnswerSelect = (currentSelect: number) => {
+    if (isMultiselect && activeAnswer.includes(currentSelect)) {
+      setActiveAnswer(activeAnswer.filter((answerItem) => answerItem !== currentSelect));
+      return;
+    }
+
+    if (isMultiselect) {
+      setActiveAnswer([...activeAnswer, currentSelect]);
+      return;
+    }
+
+    setActiveAnswer([currentSelect]);
+  };
 
   return (
     <div className={`${styles['body-layout-step-question']} p-t-24`}>
@@ -26,13 +42,17 @@ export const Question: React.FC<QuestionProps> = ({ currentQuestionNumber, quest
         {' '}
         {question.title}
       </div>
-      {question.description && <div className="body-2 p-l-20">{question.description}</div>}
+      {question.subtitle && <div className="body-2 p-l-20">{question.subtitle}</div>}
 
       <div className="p-t-12 p-l-20">
         {filteredAnswers.map((answerItem, index) => (
           <Answer
+            isMultiselect={isMultiselect}
+            activeAnswerIndex={activeAnswer}
+            handleAnswerSelect={handleAnswerSelect}
             answer={answerItem}
-            key={index}
+            key={answerItem.id}
+            answerIndex={index}
           />
         ))}
       </div>

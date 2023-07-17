@@ -40,25 +40,40 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
       image: data[`group-image-${groupItem.id}`] || null,
     }));
 
-    const questions = groupArray.map((groupItem) => (questionArray.map((questionItem) => ({
-      id: questionItem.id,
-      groupId: groupItem.id,
-      minAnswers: data[`question-min-answers-${groupItem.id}-${questionItem.id}`],
-      maxAnswers: data[`question-max-answers-${groupItem.id}-${questionItem.id}`],
-      title: data[`question-title-${groupItem.id}-${questionItem.id}`],
-      description: data[`question-subtitle-${groupItem.id}-${questionItem.id}`] || null,
-      image: data[`question-image-${groupItem.id}-${questionItem.id}`] || null,
-    })))).flat();
+    const questions = groupArray.map((groupItem) => (questionArray.map((questionItem) => {
+      if (!data[`question-title-${groupItem.id}-${questionItem.id}`]) {
+        return null;
+      }
+
+      return ({
+        id: questionItem.id,
+        groupId: groupItem.id,
+        minAnswers: Number(data[`question-min-answers-${groupItem.id}-${questionItem.id}`]),
+        maxAnswers: Number(data[`question-max-answers-${groupItem.id}-${questionItem.id}`]),
+        title: data[`question-title-${groupItem.id}-${questionItem.id}`],
+        description: data[`question-subtitle-${groupItem.id}-${questionItem.id}`] || null,
+        image: data[`question-image-${groupItem.id}-${questionItem.id}`] || null,
+      });
+    }))).flat().filter((questionItem) => !!questionItem);
 
     const answers = groupArray.map((groupItem) => (questionArray.map((questionItem) => (
-      answersArray.map((answerItem) => ({
-        id: answerItem.id,
-        questionId: questionItem.id,
-        groupId: groupItem.id,
-        answerType: data[`answer-type-${groupItem.id}-${questionItem.id}-${answerItem.id}`]?.value,
-        title: data[`answer-${groupItem.id}-${questionItem.id}-${answerItem.id}`],
-        image: data[`answer-image-${groupItem.id}-${questionItem.id}-${answerItem.id}`] || null,
-      })))))).flat(2);
+      answersArray.map((answerItem) => {
+        const isWithoutTitle = !data[`answer-${groupItem.id}-${questionItem.id}-${answerItem.id}`];
+        const isClosedQuestion = data[`answer-type-${groupItem.id}-${questionItem.id}-${answerItem.id}`]?.value !== 'open';
+
+        if (isWithoutTitle && isClosedQuestion) {
+          return null;
+        }
+
+        return ({
+          id: answerItem.id,
+          questionId: questionItem.id,
+          groupId: groupItem.id,
+          answerType: data[`answer-type-${groupItem.id}-${questionItem.id}-${answerItem.id}`]?.value,
+          title: data[`answer-${groupItem.id}-${questionItem.id}-${answerItem.id}`],
+          image: data[`answer-image-${groupItem.id}-${questionItem.id}-${answerItem.id}`] || null,
+        });
+      }))))).flat(2).filter((answerItem) => answerItem);
 
     const readySurvey = {
       createTimestamp: new Date().valueOf(),

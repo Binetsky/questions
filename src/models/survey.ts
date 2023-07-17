@@ -20,7 +20,7 @@ export interface SurveyItem {
 
 export interface CommonContent {
   title: string;
-  description: string | null;
+  subtitle: string | null;
   image: string | null;
 }
 
@@ -72,7 +72,7 @@ export const ChatsList = new Schema<SurveyItem>({
   intro: {
     type: {
       title: String,
-      description: String || null,
+      subtitle: String || null,
       image: String || null,
     },
     required: true,
@@ -80,7 +80,7 @@ export const ChatsList = new Schema<SurveyItem>({
   outro: {
     type: {
       title: String,
-      description: String || null,
+      subtitle: String || null,
       image: String || null,
     },
     required: true,

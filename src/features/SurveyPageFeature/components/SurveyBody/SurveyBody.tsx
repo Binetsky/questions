@@ -10,14 +10,23 @@ import styles from './styles.module.scss';
  * @returns React.FC
  */
 export const SurveyBody: React.FC = () => {
-  const { survey, currentLayoutNumber, changeLayoutHandler } = React.useContext(SurveyPageContext);
+  const {
+    survey, currentLayoutNumber, changeLayoutHandler, handleSubmit, handleSave,
+  } = React.useContext(SurveyPageContext);
   const { intro, outro } = survey;
   const { groups } = survey;
   const groupLength = groups.length;
 
+  if (!handleSubmit) {
+    return null;
+  }
+
   return (
     <div className={styles.body}>
-      <div className={styles['body-container']}>
+      <form
+        className={styles['body-container']}
+        onSubmit={handleSubmit(handleSave)}
+      >
         {currentLayoutNumber === 0 && (
           <StartLayout
             changeLayoutHandler={changeLayoutHandler}
@@ -32,20 +41,19 @@ export const SurveyBody: React.FC = () => {
         )}
 
         {groups.map((groupItem, index) => (
-          <>
+          <React.Fragment key={groupItem.id}>
             {currentLayoutNumber === index + 1 && (
               <StepLayout
                 group={groupItem}
                 currentStep={index + 1}
                 groupLength={groupLength}
                 changeLayoutHandler={changeLayoutHandler}
-                key={index}
               />
             )}
-          </>
+          </React.Fragment>
         ))}
 
-      </div>
+      </form>
     </div>
   );
 };

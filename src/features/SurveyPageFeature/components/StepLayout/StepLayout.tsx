@@ -17,9 +17,10 @@ interface StepLayoutProps {
  * @param group - GroupItem
  */
 export const StepLayout: React.FC<StepLayoutProps> = ({ currentStep, group }) => {
-  const { title, id, description = undefined } = group;
+  const { title, id, subtitle = undefined } = group;
   const { changeLayoutHandler, groupLength, survey: { questions } } = React.useContext(SurveyPageContext);
   const filteredQuestions = questions.filter((questionItem) => questionItem.groupId === id);
+  const isLastQuestion = currentStep === groupLength;
 
   return (
     <div className={`${styles['body-layout-step']} w-100`}>
@@ -29,22 +30,22 @@ export const StepLayout: React.FC<StepLayoutProps> = ({ currentStep, group }) =>
         {' '}
         {title}
       </div>
-      {description && (<div className="body-4">{description}</div>)}
+      {subtitle && (<div className="body-4">{subtitle}</div>)}
 
       {filteredQuestions.length > 0 && filteredQuestions.map((questionItem, index) => (
         <Question
           question={questionItem}
-          key={index}
+          key={questionItem.id}
           currentQuestionNumber={index + 1}
         />
       ))}
 
       <button
-        type="button"
+        type={isLastQuestion ? 'button' : 'submit'}
         className="button lg primary m-t-24"
         onClick={changeLayoutHandler}
       >
-        {currentStep === groupLength ? 'Завершить опрос' : 'Далее'}
+        {isLastQuestion ? 'Завершить опрос' : 'Далее'}
       </button>
     </div>
   );

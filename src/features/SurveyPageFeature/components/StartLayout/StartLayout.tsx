@@ -16,7 +16,7 @@ interface StartLayoutProps {
 export const StartLayout: React.FC<StartLayoutProps> = ({ changeLayoutHandler, content }) => (
   <div className={styles['body-layout-start']}>
     <h1 className="headline-1 m-b-12">{content.title}</h1>
-    {content.description && (<h2 className="body-1 m-b-24">{content.description}</h2>)}
+    {content.subtitle && (<h2 className="body-1 m-b-24">{content.subtitle}</h2>)}
     <button
       type="button"
       className="button lg primary"

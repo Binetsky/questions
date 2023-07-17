@@ -1,11 +1,17 @@
 import React from 'react';
 import { SurveyItem } from '@models/survey';
+import {
+  Control, FieldValues, useForm, UseFormHandleSubmit,
+} from 'react-hook-form';
 
 interface SurveyPageState {
   survey: SurveyItem;
   changeLayoutHandler: () => void;
+  handleSave: (values: unknown) => void;
   currentLayoutNumber: number;
   groupLength: number;
+  handleSubmit?: UseFormHandleSubmit<FieldValues, undefined>;
+  control?: Control<FieldValues, unknown>;
 }
 
 const surveyPageInitialState: SurveyItem = {
@@ -13,8 +19,8 @@ const surveyPageInitialState: SurveyItem = {
   author: 'unknown',
   firstPublishTimestamp: null,
   publishTimestamp: null,
-  intro: { title: 'unknown', description: 'unknown', image: null },
-  outro: { title: 'unknown', description: 'unknown', image: null },
+  intro: { title: 'unknown', subtitle: 'unknown', image: null },
+  outro: { title: 'unknown', subtitle: 'unknown', image: null },
   questions: [],
   answers: [],
   groups: [],
@@ -28,6 +34,7 @@ const surveyPageInitialState: SurveyItem = {
 const contextInitialState: SurveyPageState = {
   survey: surveyPageInitialState,
   changeLayoutHandler: () => null,
+  handleSave: () => null,
   currentLayoutNumber: 0,
   groupLength: 1,
 };
@@ -41,6 +48,11 @@ export const SurveyPageProvider: React.FC<{ survey: SurveyItem; children?: React
   const { groups } = survey;
   const [currentLayoutNumber, setCurrentLayoutNumber] = React.useState(0);
   const groupLength = groups?.length || 1;
+  const { control, handleSubmit } = useForm({});
+
+  const handleSave = (values: unknown) => {
+    console.log(1, values);
+  };
 
   const changeLayoutHandler = () => {
     setCurrentLayoutNumber(currentLayoutNumber + 1);
@@ -49,7 +61,7 @@ export const SurveyPageProvider: React.FC<{ survey: SurveyItem; children?: React
 
   return (
     <SurveyPageContext.Provider value={{
-      survey, changeLayoutHandler, currentLayoutNumber, groupLength,
+      survey, changeLayoutHandler, currentLayoutNumber, groupLength, control, handleSubmit, handleSave,
     }}
     >
       {children}
