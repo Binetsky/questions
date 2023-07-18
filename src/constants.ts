@@ -19,8 +19,11 @@ export enum HttpMethods {
 
 export enum Collections {
   Surveys = 'surveys',
+  Results = 'results',
 }
 
 export enum ApiEndpoints {
   SurveysAdmin = '/api/admin/surveys',
+  SurveyGet = '/api/survey',
+  ResultPost = '/api/result',
 }

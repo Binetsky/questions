@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import React from 'react';
 import { SurveyPageFeature } from '@features/SurveyPageFeature';
 import { SurveyItem } from '@models/survey';
-import { API_URL } from '@constants';
+import { API_URL, ApiEndpoints } from '@constants';
 import { SurveyPageProvider } from '@context/SurveyPageContext';
 import Head from 'next/head';
 
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<{
 }) => {
   const surveyId = url?.split('/')?.[2] || '#';
 
-  const response = await fetch(`${API_URL}/api/survey/${surveyId}`);
+  const response = await fetch(`${API_URL}${ApiEndpoints.SurveyGet}/${surveyId}`);
   const repo = await response.json();
 
   if (repo === '404' || repo === '403') {

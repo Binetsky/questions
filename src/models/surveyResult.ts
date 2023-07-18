@@ -2,19 +2,20 @@
  * Тип экземпляра результата опроса
  */
 export interface SurveyResult {
-  _id: string;
-  key: string;
-  meta: string;
+  surveyId: string;
+  clientKey: number;
+  meta: Meta;
   timestamp: number;
-  results: QuestionItem[];
+  results: Record<number | string, number[]>[];
 }
 
-interface QuestionItem {
-  questionId: string;
-  answers: AnswerItem[];
+interface Meta {
+  cookies: string;
+  browser: Browser;
+  os: string;
 }
 
-interface AnswerItem {
-  answerId: string;
-  value: boolean | string;
+interface Browser {
+  name: string;
+  version: string;
 }

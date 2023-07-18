@@ -1,0 +1,1 @@
+export { getOs } from './getOs';

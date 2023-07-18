@@ -3,6 +3,11 @@ import { SurveyItem } from '@models/survey';
 import {
   Control, FieldValues, useForm, UseFormHandleSubmit,
 } from 'react-hook-form';
+import { getOs } from '@utils/getOs';
+import { getBrowser } from '@utils/getBrowser';
+import { SurveyResult } from '@models/surveyResult';
+import { sendChanges } from '@helpers/sendChanges';
+import { ApiEndpoints } from '@constants';
 
 interface SurveyPageState {
   survey: SurveyItem;
@@ -45,13 +50,27 @@ export const SurveyPageContext = React.createContext(contextInitialState);
  * UserContextProvider - провайдер контекста пользователя
  */
 export const SurveyPageProvider: React.FC<{ survey: SurveyItem; children?: React.ReactNode }> = ({ children, survey }) => {
-  const { groups } = survey;
+  const { groups, _id: surveyId } = survey;
   const [currentLayoutNumber, setCurrentLayoutNumber] = React.useState(0);
   const groupLength = groups?.length || 1;
   const { control, handleSubmit } = useForm({});
 
-  const handleSave = (values: unknown) => {
-    console.log(1, values);
+  const handleSave = async (values: unknown) => {
+    const readyResult: SurveyResult = {
+      surveyId: surveyId || 'lost',
+      clientKey: 123,
+      timestamp: new Date().valueOf(),
+      meta: {
+        cookies: document.cookie,
+        browser: getBrowser(),
+        os: getOs(),
+      },
+      results: values as Record<number | string, number[]>[],
+    };
+
+    const savedResult = await sendChanges(`${ApiEndpoints.ResultPost}`, readyResult);
+
+    console.log(1, savedResult);
   };
 
   const changeLayoutHandler = () => {
