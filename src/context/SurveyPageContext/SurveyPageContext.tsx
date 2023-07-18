@@ -56,6 +56,10 @@ export const SurveyPageProvider: React.FC<{ survey: SurveyItem; children?: React
 
   const changeLayoutHandler = () => {
     setCurrentLayoutNumber(currentLayoutNumber + 1);
+
+    if (currentLayoutNumber === groupLength) {
+      handleSubmit(handleSave)();
+    }
   };
   // Todo: тут будут обработчики для страницы прохождения опроса
 

@@ -52,7 +52,6 @@ export const SurveyBody: React.FC = () => {
             )}
           </React.Fragment>
         ))}
-
       </form>
     </div>
   );

@@ -16,7 +16,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@frontend/uikit-rbc": "2.0.0",
+    "@frontend/uikit-rbc": "2.1.0-uikit-rc-5",
     "@frontend/utils": "0.0.9",
     "@next/bundle-analyzer": "^12.3.1",
     "@types/node": "18.11.9",

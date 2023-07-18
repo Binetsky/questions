@@ -2,17 +2,18 @@ import React from 'react';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import { AnswerItem } from '@models/survey';
-import { SurveyPageContext } from '@context/SurveyPageContext';
 import { InputFieldController } from '@layout/InputFieldController';
-import { RadioController } from '@layout/RadioController';
-import { Radio } from '@frontend/uikit-rbc/Radio';
+import { RadioOrCheckbox } from '@features/SurveyPageFeature/components/RadioOrCheckbox';
+import { Control, FieldValues } from 'react-hook-form';
 
 interface AnswerProps {
   answer: AnswerItem;
   isMultiselect: boolean;
   answerIndex: number;
+  onChange: (event: unknown) => void;
   activeAnswerIndex: number[];
-  handleAnswerSelect: (value: number) => void;
+  handleAnswerSelect: (value: number) => number[];
+  control: Control<FieldValues, unknown>;
 }
 
 /**
@@ -20,9 +21,15 @@ interface AnswerProps {
  * @constructor
  */
 export const Answer: React.FC<AnswerProps> = ({
-  answer, isMultiselect, answerIndex, activeAnswerIndex, handleAnswerSelect,
+  answer, isMultiselect, answerIndex, activeAnswerIndex, handleAnswerSelect, control, onChange,
 }) => {
-  const { control } = React.useContext(SurveyPageContext);
+  const isChecked = activeAnswerIndex.includes(answerIndex);
+
+  const onSelect = () => {
+    const currentAnswerArray = handleAnswerSelect(answerIndex);
+
+    onChange(currentAnswerArray);
+  };
 
   if (!control) {
     return null;
@@ -31,38 +38,37 @@ export const Answer: React.FC<AnswerProps> = ({
   return (
     <>
       {answer.answerType === 'closed' ? (
-        <RadioController
+        <RadioOrCheckbox
           name={answer.id.toString()}
-          control={control}
-          isRequired={false}
           isDisabled={false}
-          isChecked={activeAnswerIndex.includes(answerIndex)}
-          onSelect={() => handleAnswerSelect(answerIndex)}
-          answerValue={answer.title}
-          size="md"
+          isChecked={isChecked}
+          onSelect={onSelect}
+          size={FormElementSizes.Medium}
           className="m-b-12"
+          isMultiselect={isMultiselect}
         >
           {answer.title}
-        </RadioController>
+        </RadioOrCheckbox>
       ) : (
-        <Radio
-          size="md"
-          onSelect={() => handleAnswerSelect(answerIndex)}
+        <RadioOrCheckbox
+          name={`${answer.id.toString()}`}
+          size={FormElementSizes.Medium}
+          onSelect={onSelect}
           className="m-b-12"
-          isChecked={activeAnswerIndex.includes(answerIndex)}
+          isChecked={isChecked}
           isDisabled={false}
+          isMultiselect={isMultiselect}
         >
           <InputFieldController
+            name={answer.id.toString()}
             control={control}
-            name="open-answer"
             placeholder="Напишите свой вариант ответа здесь"
             size={FormElementSizes.Small}
             type={InputType.Text}
-            isDisabled={false}
-            isRequired
-            style={{ marginTop: '-8px', width: '100%', minWidth: '320px' }}
+            isDisabled={!isChecked}
+            style={{ marginTop: isMultiselect ? '0' : '-8px', width: '100%', minWidth: '320px' }}
           />
-        </Radio>
+        </RadioOrCheckbox>
       )}
     </>
   );

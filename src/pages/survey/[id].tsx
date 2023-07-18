@@ -4,6 +4,7 @@ import { SurveyPageFeature } from '@features/SurveyPageFeature';
 import { SurveyItem } from '@models/survey';
 import { API_URL } from '@constants';
 import { SurveyPageProvider } from '@context/SurveyPageContext';
+import Head from 'next/head';
 
 /**
  * Страница прохождения опроса
@@ -14,6 +15,9 @@ const Index: NextPage<{ repo: SurveyItem }> = (props) => {
 
   return (
     <SurveyPageProvider survey={repo}>
+      <Head>
+        <title>Прохождение опроса</title>
+      </Head>
       <SurveyPageFeature />
     </SurveyPageProvider>
   );

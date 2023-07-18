@@ -41,7 +41,7 @@ export const StepLayout: React.FC<StepLayoutProps> = ({ currentStep, group }) =>
       ))}
 
       <button
-        type={isLastQuestion ? 'button' : 'submit'}
+        type={isLastQuestion ? 'submit' : 'button'}
         className="button lg primary m-t-24"
         onClick={changeLayoutHandler}
       >
