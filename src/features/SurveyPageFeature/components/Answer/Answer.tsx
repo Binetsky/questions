@@ -18,7 +18,7 @@ interface AnswerProps {
 
 /**
  * Компонент ответа на вопрос
- * @constructor
+ * @returns React.FC
  */
 export const Answer: React.FC<AnswerProps> = ({
   answer, isMultiselect, answerIndex, activeAnswerIndex, handleAnswerSelect, control, onChange,

@@ -7,17 +7,22 @@ import { Controller } from 'react-hook-form';
 
 interface QuestionProps {
   currentQuestionNumber: number;
+  questionsRecord: Record<string | number, boolean>;
+  setQuestionsRecord: React.Dispatch<React.SetStateAction<Record<string | number, boolean>>>;
   question: QuestionItem;
 }
 
 /**
  * Компонент вопроса
- * @param propsSample
- * @constructor
+ * @param props - QuestionProps
+ * @returns React.FC
  */
-export const Question: React.FC<QuestionProps> = ({ currentQuestionNumber, question }) => {
-  const { survey: { answers }, control } = React.useContext(SurveyPageContext);
+export const Question: React.FC<QuestionProps> = (props) => {
+  const {
+    currentQuestionNumber, question, setQuestionsRecord, questionsRecord,
+  } = props;
   const [activeAnswer, setActiveAnswer] = React.useState<number[]>([]);
+  const { survey: { answers }, control } = React.useContext(SurveyPageContext);
   const filteredAnswers = answers.filter((answerItem) => answerItem.questionId === question.id);
   const isMultiselect = question.maxAnswers !== 1;
 
@@ -43,6 +48,10 @@ export const Question: React.FC<QuestionProps> = ({ currentQuestionNumber, quest
   if (!control) {
     return null;
   }
+
+  React.useEffect(() => {
+    setQuestionsRecord({ ...questionsRecord, [question.id]: activeAnswer.length > 0 });
+  }, [activeAnswer]);
 
   return (
     <div className={`${styles['body-layout-step-question']} p-t-24`}>

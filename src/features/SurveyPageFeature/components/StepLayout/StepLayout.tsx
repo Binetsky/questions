@@ -13,14 +13,17 @@ interface StepLayoutProps {
 
 /**
  * Компонент шага опроса
- * @param currentStep - number
- * @param group - GroupItem
+ * @param props - StepLayoutProps
  */
-export const StepLayout: React.FC<StepLayoutProps> = ({ currentStep, group }) => {
+export const StepLayout: React.FC<StepLayoutProps> = (props) => {
+  const { currentStep, group } = props;
   const { title, id, subtitle = undefined } = group;
+  const [questionsRecord, setQuestionsRecord] = React.useState({});
   const { changeLayoutHandler, groupLength, survey: { questions } } = React.useContext(SurveyPageContext);
   const filteredQuestions = questions.filter((questionItem) => questionItem.groupId === id);
   const isLastQuestion = currentStep === groupLength;
+  // Todo: пока реагируем при валидации только на то что выделен чекбокс или радио, надо реагировать на заполнение инпута
+  const isNextStepAvailable = Object.values(questionsRecord).filter((valueItem) => valueItem === true).length === filteredQuestions.length;
 
   return (
     <div className={`${styles['body-layout-step']} w-100`}>
@@ -37,13 +40,16 @@ export const StepLayout: React.FC<StepLayoutProps> = ({ currentStep, group }) =>
           question={questionItem}
           key={questionItem.id}
           currentQuestionNumber={index + 1}
+          questionsRecord={questionsRecord}
+          setQuestionsRecord={setQuestionsRecord}
         />
       ))}
 
       <button
-        type={isLastQuestion ? 'submit' : 'button'}
-        className="button lg primary m-t-24"
+        type="submit"
+        className={`button lg primary m-t-24${isNextStepAvailable ? '' : ' disabled'}`}
         onClick={changeLayoutHandler}
+        disabled={!isNextStepAvailable}
       >
         {isLastQuestion ? 'Завершить опрос' : 'Далее'}
       </button>
