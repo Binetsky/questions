@@ -20,6 +20,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
   const [groupArray, setGroupArray] = React.useState<BasicGroupProps[]>([]);
   const [questionArray, setQuestionArray] = React.useState<BasicQuestionProps[]>([]);
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
+  const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(null);
   const { control, handleSubmit } = useForm({});
 
   const handleSave = async (data: FieldValues) => {
@@ -79,7 +80,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
       createTimestamp: new Date().valueOf(),
       author: 'Константинопольский Константин Константинович',
       firstPublishTimestamp: null,
-      publishTimestamp: null,
+      publishTimestamp,
       intro,
       outro,
       questions,
@@ -96,7 +97,8 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
   };
 
   const handleSaveAndPublish = () => {
-    // Todo: Запускается до handleSave, ставим флаг isPublished в true
+    setPublishTimestamp(new Date().valueOf());
+    handleSubmit(handleSave);
     console.log('handleSaveAndPublish');
   };
 
