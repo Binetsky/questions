@@ -50,7 +50,16 @@ export const Question: React.FC<QuestionProps> = (props) => {
   }
 
   React.useEffect(() => {
-    setQuestionsRecord({ ...questionsRecord, [question.id]: activeAnswer.length > 0 });
+    if (isMultiselect) {
+      setQuestionsRecord({
+        ...questionsRecord,
+        [question.id]: activeAnswer.length <= question.maxAnswers && activeAnswer.length >= question.minAnswers,
+      });
+    }
+
+    if (!isMultiselect) {
+      setQuestionsRecord({ ...questionsRecord, [question.id]: activeAnswer.length > 0 });
+    }
   }, [activeAnswer]);
 
   return (
