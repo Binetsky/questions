@@ -16,6 +16,7 @@ export interface SurveyItem {
   groups: GroupItem[];
   isArchived: boolean;
   isPublished: boolean;
+  isDeleted: boolean;
 }
 
 export interface CommonContent {
@@ -65,6 +66,11 @@ export const ChatsList = new Schema<SurveyItem>({
     required: true,
   },
   isPublished: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  isDeleted: {
     type: Boolean,
     default: false,
     required: true,

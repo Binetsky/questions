@@ -14,7 +14,7 @@ import { DropdownSelectController } from '@layout/DropdownSelectController';
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
   const {
-    control, id, placeNumber, deleteAnswerHandler, groupId, questionId,
+    control, id, placeNumber, deleteAnswerHandler, groupId, questionId, answersLength,
   } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
 
@@ -36,7 +36,7 @@ export const Answer: React.FC<AnswerProps> = (props) => {
         Ответ
         {' '}
         {placeNumber}
-        {placeNumber !== 1 && (
+        {answersLength > 1 && (
           <button
             type="button"
             className="button sm tertiary square m-l-12"

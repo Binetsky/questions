@@ -31,10 +31,10 @@ export const Header: React.FC = () => {
         </RaLink>
         <RaLink
           LibraryLink={Link}
-          href="/archive"
-          classList={`m-r-16${currentPage === '/archive' ? ' primary' : ''}`}
+          href="/"
+          classList={`m-r-16${currentPage === '/profile' ? ' primary' : ''}`}
         >
-          Архив
+          Профиль
         </RaLink>
       </nav>
 

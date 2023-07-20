@@ -14,7 +14,7 @@ import { InputFieldController } from '@layout/InputFieldController';
  */
 export const Question: React.FC<QuestionProps> = (props) => {
   const {
-    control, placeNumber, id, deleteQuestionHandler, answersArray, groupId, addAnswerHandler, deleteAnswerHandler,
+    control, placeNumber, id, deleteQuestionHandler, answersArray, groupId, addAnswerHandler, deleteAnswerHandler, questionLength,
   } = props;
 
   const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === id);
@@ -31,7 +31,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
         titlePlaceholder="Здесь укажите вопрос"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         header={`Вопрос ${placeNumber}`}
-        deleteButtonHandler={placeNumber !== 1 ? deleteButtonHandler : undefined}
+        deleteButtonHandler={questionLength > 1 ? deleteButtonHandler : undefined}
         titleName={`question-title-${groupId}-${id}`}
         subtitleName={`question-subtitle-${groupId}-${id}`}
       />
@@ -75,7 +75,9 @@ export const Question: React.FC<QuestionProps> = (props) => {
           groupId={groupId}
           questionId={id}
           key={answerItem.id}
+          answerLength={filteredAnswers.length}
           deleteAnswerHandler={deleteAnswerHandler}
+          answersLength={filteredAnswers.length}
         />
       ))}
 

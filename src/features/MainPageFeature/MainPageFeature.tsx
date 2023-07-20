@@ -15,6 +15,8 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
   const [currentTab, setCurrentTab] = React.useState(0);
   const [publishedSurveys, setPublishedSurveys] = React.useState<SurveyItem[]>([]);
   const [unpublishedSurveys, setUnpublishedSurveys] = React.useState<SurveyItem[]>([]);
+  const [deletedSurveys, setDeletedSurveys] = React.useState<SurveyItem[]>([]);
+  const [archivedSurveys, setArchivedSurveys] = React.useState<SurveyItem[]>([]);
   const [surveys, setSurveys] = React.useState<SurveyItem[]>([]);
   const [results, setResults] = React.useState<SurveyResult[]>([]);
 
@@ -24,11 +26,13 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
 
     setPublishedSurveys(responseSurveys.filter((responseItem) => responseItem.isPublished));
     setUnpublishedSurveys(responseSurveys.filter((responseItem) => !responseItem.isPublished));
+    setDeletedSurveys(responseSurveys.filter((responseItem) => responseItem.isDeleted));
+    setArchivedSurveys(responseSurveys.filter((responseItem) => responseItem.isArchived));
     setSurveys(responseSurveys);
     setResults(responseResults);
   };
 
-  const tabList = ['Опубликованные', 'Не опубликованные', 'Все'];
+  const tabList = ['Опубликованные', 'Не опубликованные', 'Удаленные', 'Архив', 'Все'];
 
   const changeTab = (tab: number) => {
     setCurrentTab(tab);
@@ -44,6 +48,14 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
     }
 
     if (tabNumber === 2) {
+      return deletedSurveys;
+    }
+
+    if (tabNumber === 3) {
+      return archivedSurveys;
+    }
+
+    if (tabNumber === 4) {
       return surveys;
     }
 

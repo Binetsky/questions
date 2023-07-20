@@ -3,6 +3,7 @@ import { Control, FieldValues } from 'react-hook-form';
 export interface GroupProps extends BasicGroupProps {
   control: Control<FieldValues, unknown>;
   placeNumber: number;
+  groupLength: number;
   deleteGroupHandler: (idParam: number) => void;
   addQuestionHandler: (idParam: number) => void;
   deleteQuestionHandler: (idParam: number) => void;
@@ -18,12 +19,15 @@ export interface QuestionProps extends BasicQuestionProps {
   deleteAnswerHandler: (idParam: number) => void;
   addAnswerHandler: (params: { questionIdParam: number; groupIdParam: number }) => void;
   placeNumber: number;
+  questionLength: number;
   answersArray: BasicAnswerProps[];
 }
 
 export interface AnswerProps extends BasicAnswerProps {
   control: Control<FieldValues, unknown>;
   placeNumber: number;
+  answerLength: number;
+  answersLength: number;
   deleteAnswerHandler: (idParam: number) => void;
 }
 

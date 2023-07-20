@@ -11,7 +11,7 @@ import { GroupProps } from '@features/NewPageFeature/types';
  */
 export const Group: React.FC<GroupProps> = (props) => {
   const {
-    control, placeNumber, questionArray, id, deleteGroupHandler, addQuestionHandler, deleteQuestionHandler, answersArray,
+    control, placeNumber, questionArray, id, deleteGroupHandler, addQuestionHandler, deleteQuestionHandler, answersArray, groupLength,
     addAnswerHandler, deleteAnswerHandler,
   } = props;
   const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === id);
@@ -27,7 +27,7 @@ export const Group: React.FC<GroupProps> = (props) => {
         header={`Группа ${placeNumber}`}
         titlePlaceholder="Озаглавьте группу вопросов, чтобы респондент с чем ему придется иметь дело далее"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
-        deleteButtonHandler={placeNumber !== 1 ? deleteGroupHandler : undefined}
+        deleteButtonHandler={groupLength > 1 ? deleteGroupHandler : undefined}
         titleName={`group-title-${id}`}
         subtitleName={`group-subtitle-${id}`}
       />
@@ -44,6 +44,7 @@ export const Group: React.FC<GroupProps> = (props) => {
           deleteQuestionHandler={deleteQuestionHandler}
           addAnswerHandler={addAnswerHandler}
           deleteAnswerHandler={deleteAnswerHandler}
+          questionLength={currentQuestions.length}
         />
       ))}
 

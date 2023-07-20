@@ -88,6 +88,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
       groups,
       isArchived: false,
       isPublished: false,
+      isDeleted: false,
     } as unknown as SurveyItem;
 
     const savedSurvey = await sendChanges(`${ApiEndpoints.SurveysAdmin}`, readySurvey);
@@ -231,6 +232,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
             deleteQuestionHandler={deleteQuestionHandler}
             addAnswerHandler={addAnswerHandler}
             deleteAnswerHandler={deleteAnswerHandler}
+            groupLength={groupArray.length}
           />
         ))}
 
