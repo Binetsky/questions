@@ -24,6 +24,7 @@ export enum Collections {
 
 export enum ApiEndpoints {
   SurveysAdmin = '/api/admin/surveys',
+  ResultsAdmin = '/api/admin/results',
   SurveyGet = '/api/survey',
   ResultPost = '/api/result',
 }
