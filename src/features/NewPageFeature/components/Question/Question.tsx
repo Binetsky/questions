@@ -6,6 +6,7 @@ import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import { QuestionProps } from '@features/NewPageFeature/types';
 import { InputFieldController } from '@layout/InputFieldController';
+import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
 
 /**
  * Компонент заполнения вопроса
@@ -14,7 +15,8 @@ import { InputFieldController } from '@layout/InputFieldController';
  */
 export const Question: React.FC<QuestionProps> = (props) => {
   const {
-    control, placeNumber, id, deleteQuestionHandler, answersArray, groupId, addAnswerHandler, deleteAnswerHandler, questionLength,
+    control, placeNumber, id, deleteQuestionHandler, answersArray, groupId, addAnswerHandler, deleteAnswerHandler,
+    questionLength, moveComponent, actualIndex,
   } = props;
 
   const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === id);
@@ -25,6 +27,13 @@ export const Question: React.FC<QuestionProps> = (props) => {
 
   return (
     <div className={`${styles.question} m-b-24`}>
+      <MoveControls
+        currentIndex={actualIndex}
+        moveComponent={moveComponent}
+        blockType="question"
+        shouldRightRender={placeNumber < questionLength}
+        shouldLeftRender={placeNumber > 1}
+      />
       <Title
         id={id}
         control={control}
@@ -70,6 +79,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
         <Answer
           control={control}
           placeNumber={index + 1}
+          actualIndex={answersArray.findIndex((commonAnswerItem) => commonAnswerItem.id === answerItem.id)}
           id={answerItem.id}
           type={answerItem.type}
           groupId={groupId}
@@ -78,6 +88,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
           answerLength={filteredAnswers.length}
           deleteAnswerHandler={deleteAnswerHandler}
           answersLength={filteredAnswers.length}
+          moveComponent={moveComponent}
         />
       ))}
 

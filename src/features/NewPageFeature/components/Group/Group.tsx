@@ -3,6 +3,7 @@ import React from 'react';
 import { Question } from '@features/NewPageFeature/components/Question';
 import { Title } from '@features/NewPageFeature/components/Title';
 import { GroupProps } from '@features/NewPageFeature/types';
+import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
 
 /**
  * Компонент заполнения группы вопросов
@@ -12,7 +13,7 @@ import { GroupProps } from '@features/NewPageFeature/types';
 export const Group: React.FC<GroupProps> = (props) => {
   const {
     control, placeNumber, questionArray, id, deleteGroupHandler, addQuestionHandler, deleteQuestionHandler, answersArray, groupLength,
-    addAnswerHandler, deleteAnswerHandler,
+    addAnswerHandler, deleteAnswerHandler, moveComponent,
   } = props;
   const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === id);
 
@@ -21,6 +22,13 @@ export const Group: React.FC<GroupProps> = (props) => {
       className={`${styles.group} m-b-24`}
       id={`group-fieldset-${id}`}
     >
+      <MoveControls
+        currentIndex={placeNumber - 1}
+        moveComponent={moveComponent}
+        blockType="group"
+        shouldRightRender={placeNumber < groupLength}
+        shouldLeftRender={placeNumber > 1}
+      />
       <Title
         control={control}
         id={id}
@@ -31,12 +39,12 @@ export const Group: React.FC<GroupProps> = (props) => {
         titleName={`group-title-${id}`}
         subtitleName={`group-subtitle-${id}`}
       />
-
       {currentQuestions && currentQuestions.map((questionItem, index) => (
         <Question
           control={control}
           answersArray={answersArray}
           placeNumber={index + 1}
+          actualIndex={questionArray.findIndex((commonQuestionItem) => commonQuestionItem.id === questionItem.id)}
           id={questionItem.id}
           groupId={id}
           type={questionItem.type}
@@ -45,6 +53,7 @@ export const Group: React.FC<GroupProps> = (props) => {
           addAnswerHandler={addAnswerHandler}
           deleteAnswerHandler={deleteAnswerHandler}
           questionLength={currentQuestions.length}
+          moveComponent={moveComponent}
         />
       ))}
 

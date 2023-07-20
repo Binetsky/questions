@@ -5,7 +5,12 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { ControlPanel } from '@features/NewPageFeature/components/ControlPanel';
 import { Group } from '@features/NewPageFeature/components/Group';
 import { initialAnswer, initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
-import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
+import {
+  BasicAnswerProps,
+  BasicGroupProps,
+  BasicQuestionProps,
+  MoveComponentParams,
+} from '@features/NewPageFeature/types';
 import { generateId } from '@utils/generateId';
 import { SurveyItem } from '@models/survey';
 import { sendChanges } from '@helpers/sendChanges';
@@ -22,6 +27,34 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
   const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(null);
   const { control, handleSubmit } = useForm({});
+
+  const moveComponent = ({ fromIndex, toIndex, blockType = 'group' }: MoveComponentParams) => {
+    if (blockType === 'group') {
+      const newComponents = [...groupArray];
+      const [removedComponent] = newComponents.splice(fromIndex, 1);
+
+      newComponents.splice(toIndex, 0, removedComponent);
+      setGroupArray(newComponents);
+      return;
+    }
+
+    if (blockType === 'question') {
+      const newComponents = [...questionArray];
+      const [removedComponent] = newComponents.splice(fromIndex, 1);
+
+      newComponents.splice(toIndex, 0, removedComponent);
+      setQuestionArray(newComponents);
+      return;
+    }
+
+    if (blockType === 'answer') {
+      const newComponents = [...answersArray];
+      const [removedComponent] = newComponents.splice(fromIndex, 1);
+
+      newComponents.splice(toIndex, 0, removedComponent);
+      setAnswersArray(newComponents);
+    }
+  };
 
   const handleSave = async (data: FieldValues) => {
     const intro = {
@@ -233,6 +266,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
             addAnswerHandler={addAnswerHandler}
             deleteAnswerHandler={deleteAnswerHandler}
             groupLength={groupArray.length}
+            moveComponent={moveComponent}
           />
         ))}
 

@@ -6,6 +6,7 @@ import { DropdownSelectOptions } from '@frontend/uikit-rbc/DropdownSelect/types'
 import { InputFieldController } from '@layout/InputFieldController';
 import { AnswerProps } from '@features/NewPageFeature/types';
 import { DropdownSelectController } from '@layout/DropdownSelectController';
+import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
 
 /**
  * Компонент заполнения ответов на вопросы
@@ -14,7 +15,7 @@ import { DropdownSelectController } from '@layout/DropdownSelectController';
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
   const {
-    control, id, placeNumber, deleteAnswerHandler, groupId, questionId, answersLength,
+    control, id, placeNumber, deleteAnswerHandler, groupId, questionId, answersLength, moveComponent,
   } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
 
@@ -32,6 +33,13 @@ export const Answer: React.FC<AnswerProps> = (props) => {
 
   return (
     <div className={`${styles.answer} m-b-24`}>
+      <MoveControls
+        currentIndex={placeNumber - 1}
+        moveComponent={moveComponent}
+        blockType="answer"
+        shouldRightRender={placeNumber < answersLength}
+        shouldLeftRender={placeNumber > 1}
+      />
       <div className="headline-5">
         Ответ
         {' '}
