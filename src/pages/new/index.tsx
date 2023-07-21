@@ -3,6 +3,7 @@ import React from 'react';
 import { PageBodyFeature } from '@features/PageBodyFeature/PageBodyFeature';
 import { NewPageFeature } from '@features/NewPageFeature';
 import Head from 'next/head';
+import { NewSurveyProvider } from '@context/NewSurveyContext';
 
 /**
  * Страница создания опроса
@@ -13,7 +14,9 @@ const Index: NextPage = () => (
     <Head>
       <title>Создание опроса</title>
     </Head>
-    <NewPageFeature />
+    <NewSurveyProvider>
+      <NewPageFeature />
+    </NewSurveyProvider>
   </PageBodyFeature>
 );
 

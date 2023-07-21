@@ -31,6 +31,7 @@ const surveyPageInitialState: SurveyItem = {
   groups: [],
   isArchived: false,
   isPublished: false,
+  isDeleted: false,
 };
 
 /**

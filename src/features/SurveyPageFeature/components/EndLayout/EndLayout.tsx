@@ -12,7 +12,7 @@ interface StartLayoutProps {
  * @returns React.FC
  */
 export const EndLayout: React.FC<StartLayoutProps> = ({ content }) => (
-  <div className={styles['body-layout-start']}>
+  <div className={styles['body-layout-end']}>
     <h1 className="headline-1 m-b-12">{content.title}</h1>
     {content.subtitle && (<h2 className="body-1 m-b-24">{content.subtitle}</h2>)}
     <a
