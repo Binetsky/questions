@@ -37,7 +37,6 @@ export const Group: React.FC<GroupProps> = (props) => {
         shouldLeftRender={placeNumber > 1}
       />
       <Title
-        control={control}
         id={id}
         header={`Группа ${placeNumber}`}
         titlePlaceholder="Озаглавьте группу вопросов, чтобы респондент с чем ему придется иметь дело далее"

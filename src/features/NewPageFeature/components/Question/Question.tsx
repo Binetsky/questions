@@ -43,7 +43,6 @@ export const Question: React.FC<QuestionProps> = (props) => {
       />
       <Title
         id={id}
-        control={control}
         titlePlaceholder="Здесь укажите вопрос"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         header={`Вопрос ${placeNumber}`}

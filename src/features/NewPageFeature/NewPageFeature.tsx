@@ -28,7 +28,6 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
         <ControlPanel handleSaveAndPublish={handleSaveAndPublish} />
 
         <IntroAndOutro
-          control={control}
           id={0}
           header="Вступление"
           titlePlaceholder={'Например, "Пройдите наш замечательный опрос"'}
@@ -38,7 +37,6 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
         />
 
         <IntroAndOutro
-          control={control}
           id={1}
           header="Заключение"
           titlePlaceholder={'Например, "Спасибо за прохождение нашего замечательного опроса"'}
