@@ -4,6 +4,7 @@ import { Question } from '@features/NewPageFeature/components/Question';
 import { Title } from '@features/NewPageFeature/components/Title';
 import { GroupProps } from '@features/NewPageFeature/types';
 import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
+import { NewSurveyContext } from '@context/NewSurveyContext';
 
 /**
  * Компонент заполнения группы вопросов
@@ -12,10 +13,16 @@ import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
  */
 export const Group: React.FC<GroupProps> = (props) => {
   const {
-    control, placeNumber, questionArray, id, deleteGroupHandler, addQuestionHandler, deleteQuestionHandler, answersArray, groupLength,
-    addAnswerHandler, deleteAnswerHandler, moveComponent,
+    placeNumber, id, groupLength,
   } = props;
+  const {
+    control, questionArray, deleteGroupHandler, addQuestionHandler, moveComponent,
+  } = React.useContext(NewSurveyContext);
   const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === id);
+
+  if (!control) {
+    return null;
+  }
 
   return (
     <fieldset
@@ -41,19 +48,13 @@ export const Group: React.FC<GroupProps> = (props) => {
       />
       {currentQuestions && currentQuestions.map((questionItem, index) => (
         <Question
-          control={control}
-          answersArray={answersArray}
           placeNumber={index + 1}
           actualIndex={questionArray.findIndex((commonQuestionItem) => commonQuestionItem.id === questionItem.id)}
           id={questionItem.id}
           groupId={id}
           type={questionItem.type}
           key={id}
-          deleteQuestionHandler={deleteQuestionHandler}
-          addAnswerHandler={addAnswerHandler}
-          deleteAnswerHandler={deleteAnswerHandler}
           questionLength={currentQuestions.length}
-          moveComponent={moveComponent}
         />
       ))}
 

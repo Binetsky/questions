@@ -17,6 +17,7 @@ import {
 import { useAnswersToggle, useGroupsToggle, useQuestionsToggle } from '@context/NewSurveyContext/hooks';
 import { useMoveComponents } from '@context/NewSurveyContext/hooks/useMoveComponents';
 import { useHandleSave } from '@context/NewSurveyContext/hooks/useHandleSave';
+import { initialAnswer, initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
 
 interface NewSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleReturn,
   UseQuestionsToggleReturn, UseAnswersToggleReturn, UseMoveComponentsReturn {
@@ -84,6 +85,12 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
     handleSubmit(handleSave);
     console.log('handleSaveAndPublish');
   };
+
+  React.useEffect(() => {
+    setGroupArray([initialGroup]);
+    setQuestionArray([initialQuestion]);
+    setAnswersArray([initialAnswer]);
+  }, []);
 
   return (
     <NewSurveyContext.Provider value={{

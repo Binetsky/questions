@@ -2,11 +2,10 @@ import React from 'react';
 import styles from '@features/NewPageFeature/styles.module.scss';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
-import { Control, FieldValues } from 'react-hook-form';
 import { InputFieldController } from '@layout/InputFieldController';
+import { NewSurveyContext } from '@context/NewSurveyContext';
 
 interface TitleProps {
-  control: Control<FieldValues, unknown>;
   header: string;
   id: number;
   titlePlaceholder: string;
@@ -23,8 +22,13 @@ interface TitleProps {
  */
 export const Title: React.FC<TitleProps> = (props) => {
   const {
-    control, id, titlePlaceholder, subtitlePlaceholder, deleteButtonHandler, header, titleName, subtitleName,
+    id, titlePlaceholder, subtitlePlaceholder, deleteButtonHandler, header, titleName, subtitleName,
   } = props;
+  const { control } = React.useContext(NewSurveyContext);
+
+  if (!control) {
+    return null;
+  }
 
   return (
     <div className={`${styles['group-title']} p-b-24`}>

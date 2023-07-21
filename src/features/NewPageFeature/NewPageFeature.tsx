@@ -3,7 +3,6 @@ import { ComponentWithChildren } from '@frontend/uikit-rbc/types';
 import { IntroAndOutro } from '@features/NewPageFeature/components/IntroAndOutro/IntroAndOutro';
 import { ControlPanel } from '@features/NewPageFeature/components/ControlPanel';
 import { Group } from '@features/NewPageFeature/components/Group';
-import { initialAnswer, initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
 import { NewSurveyContext } from '@context/NewSurveyContext';
 import styles from './styles.module.scss';
 
@@ -13,16 +12,8 @@ import styles from './styles.module.scss';
  */
 export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
   const {
-    setGroupArray, setQuestionArray, setAnswersArray, handleSubmit, handleSave, handleSaveAndPublish, control,
-    groupArray, questionArray, answersArray, deleteGroupHandler, addQuestionHandler, addAnswerHandler,
-    deleteAnswerHandler, deleteQuestionHandler, moveComponent, addGroupHandler,
+    handleSubmit, handleSave, handleSaveAndPublish, control, groupArray, addGroupHandler,
   } = React.useContext(NewSurveyContext);
-
-  React.useEffect(() => {
-    setGroupArray([initialGroup]);
-    setQuestionArray([initialQuestion]);
-    setAnswersArray([initialAnswer]);
-  }, []);
 
   if (!handleSubmit || !control) {
     return null;
@@ -58,20 +49,11 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
 
         {groupArray.map((groupItem, index) => (
           <Group
-            control={control}
             placeNumber={index + 1}
-            questionArray={questionArray}
-            answersArray={answersArray}
             id={groupItem.id}
             type={groupItem.type}
-            deleteGroupHandler={deleteGroupHandler}
             key={groupItem.id}
-            addQuestionHandler={addQuestionHandler}
-            deleteQuestionHandler={deleteQuestionHandler}
-            addAnswerHandler={addAnswerHandler}
-            deleteAnswerHandler={deleteAnswerHandler}
             groupLength={groupArray.length}
-            moveComponent={moveComponent}
           />
         ))}
 

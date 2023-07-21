@@ -7,6 +7,7 @@ import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import { QuestionProps } from '@features/NewPageFeature/types';
 import { InputFieldController } from '@layout/InputFieldController';
 import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
+import { NewSurveyContext } from '@context/NewSurveyContext';
 
 /**
  * Компонент заполнения вопроса
@@ -15,15 +16,21 @@ import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
  */
 export const Question: React.FC<QuestionProps> = (props) => {
   const {
-    control, placeNumber, id, deleteQuestionHandler, answersArray, groupId, addAnswerHandler, deleteAnswerHandler,
-    questionLength, moveComponent, actualIndex,
+    placeNumber, id, groupId, questionLength, actualIndex,
   } = props;
+  const {
+    control, answersArray, addAnswerHandler, deleteQuestionHandler, moveComponent,
+  } = React.useContext(NewSurveyContext);
 
   const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === id);
 
   const deleteButtonHandler = (idParam: number) => {
     deleteQuestionHandler(idParam);
   };
+
+  if (!control) {
+    return null;
+  }
 
   return (
     <div className={`${styles.question} m-b-24`}>
@@ -77,7 +84,6 @@ export const Question: React.FC<QuestionProps> = (props) => {
 
       {filteredAnswers.map((answerItem, index) => (
         <Answer
-          control={control}
           placeNumber={index + 1}
           actualIndex={answersArray.findIndex((commonAnswerItem) => commonAnswerItem.id === answerItem.id)}
           id={answerItem.id}
@@ -86,9 +92,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
           questionId={id}
           key={answerItem.id}
           answerLength={filteredAnswers.length}
-          deleteAnswerHandler={deleteAnswerHandler}
           answersLength={filteredAnswers.length}
-          moveComponent={moveComponent}
         />
       ))}
 

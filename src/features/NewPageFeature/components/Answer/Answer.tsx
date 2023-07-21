@@ -7,6 +7,7 @@ import { InputFieldController } from '@layout/InputFieldController';
 import { AnswerProps } from '@features/NewPageFeature/types';
 import { DropdownSelectController } from '@layout/DropdownSelectController';
 import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
+import { NewSurveyContext } from '@context/NewSurveyContext';
 
 /**
  * Компонент заполнения ответов на вопросы
@@ -15,9 +16,12 @@ import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
   const {
-    control, id, placeNumber, deleteAnswerHandler, groupId, questionId, answersLength, moveComponent,
+    id, placeNumber, groupId, questionId, answersLength,
   } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
+  const {
+    control, deleteAnswerHandler, moveComponent,
+  } = React.useContext(NewSurveyContext);
 
   const isQuestionOpen = answerType.value === 'open';
 
@@ -30,6 +34,10 @@ export const Answer: React.FC<AnswerProps> = (props) => {
   const deleteButtonHandler = (idParam: number) => {
     deleteAnswerHandler(idParam);
   };
+
+  if (!control) {
+    return null;
+  }
 
   return (
     <div className={`${styles.answer} m-b-24`}>
