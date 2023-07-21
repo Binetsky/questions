@@ -25,7 +25,7 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
     const responseResults: SurveyResult[] = await fetch(ApiEndpoints.ResultsAdmin).then((data) => data.json());
 
     setPublishedSurveys(responseSurveys.filter((responseItem) => responseItem.isPublished));
-    setUnpublishedSurveys(responseSurveys.filter((responseItem) => !responseItem.isPublished));
+    setUnpublishedSurveys(responseSurveys.filter((responseItem) => !responseItem.isPublished && !responseItem.isArchived && !responseItem.isDeleted));
     setDeletedSurveys(responseSurveys.filter((responseItem) => responseItem.isDeleted));
     setArchivedSurveys(responseSurveys.filter((responseItem) => responseItem.isArchived));
     setSurveys(responseSurveys);
