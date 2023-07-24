@@ -10,7 +10,9 @@ import { ApiHandlerParams } from './types';
  * @param res: NextApiResponse
  * @param collectionName: Collections
  */
-export const apiHandler = async ({ req, res, collectionName }: ApiHandlerParams) => {
+export const apiHandler = async ({
+  req, res, collectionName,
+}: ApiHandlerParams) => {
   const collection = await getCollection(collectionName);
 
   if (req.method === HttpMethods.Post) {
@@ -28,7 +30,9 @@ export const apiHandler = async ({ req, res, collectionName }: ApiHandlerParams)
   }
 
   try {
-    const docs = await collection.find({}).toArray();
+    const filterField = req?.query?.filterField?.toString() || undefined;
+    const surveyId = req?.query?.surveyId?.toString() || undefined;
+    const docs = await collection.find(filterField && surveyId ? { [filterField]: surveyId } : {}).toArray();
 
     return res.status(200).json(docs);
   } catch (err) {

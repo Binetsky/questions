@@ -1,13 +1,24 @@
 import { StatusTableBody } from '@features/StatusPageFeature/components/StatusTableBody';
 import React from 'react';
+import { QuestionItem } from '@models/survey';
 
-export const StatusQuestion = () => {
-  const mock = 0;
+interface StatusQuestionProps {
+  question: QuestionItem;
+}
+
+/**
+ * Компонент вопроса из списка вопросов группы
+ * @param props
+ * @returns React.FC
+ */
+export const StatusQuestion: React.FC<StatusQuestionProps> = (props) => {
+  const { question } = props;
 
   return (
     <>
-      <div className="headline-5 p-b-12 p-t-8">Вопрос 1</div>
-      <StatusTableBody />
+      <div className="headline-5 p-b-4 p-t-8">{question.title}</div>
+      {question?.subtitle && <div className="headline-5 p-b-12">{question.subtitle}</div>}
+      <StatusTableBody questionId={question.id} />
     </>
   );
 };

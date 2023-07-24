@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusTableRow } from '@features/StatusPageFeature/components/StatusTableRow';
+import { StatusPageContext } from '@context/StatusPageContext';
 
-export const StatusTableBody = () => {
-  const mock = 0;
+interface StatusTableBodyProps {
+  questionId: number;
+}
+
+/**
+ * Компонент ответов из списка вопросов группы
+ * @param props - StatusTableBodyProps
+ * @returns React.FC
+ */
+export const StatusTableBody: React.FC<StatusTableBodyProps> = (props) => {
+  const { questionId } = props;
+  const { survey } = useContext(StatusPageContext);
+  const filteredAnswers = survey.answers.filter((answerItem) => answerItem.questionId === questionId);
 
   return (
     <div className="table-wrapper">
@@ -24,7 +36,14 @@ export const StatusTableBody = () => {
           </tr>
         </thead>
         <tbody>
-          <StatusTableRow />
+          {filteredAnswers.map((answerItem, index) => (
+            <StatusTableRow
+              answer={answerItem}
+              questionId={questionId}
+              key={answerItem.id}
+              index={index + 1}
+            />
+          ))}
         </tbody>
       </table>
     </div>

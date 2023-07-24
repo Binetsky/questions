@@ -32,9 +32,7 @@ export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
         {currentTab === 0 && (
           <>
             <SummaryInfo />
-            <div className={styles['status-container']}>
-              <StatusGroupContainer />
-            </div>
+            <StatusGroupContainer />
           </>
         )}
         {currentTab === 1 && (
