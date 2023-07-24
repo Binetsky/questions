@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TabPanel } from '@frontend/uikit-rbc/TabPanel';
 import { ComponentWithChildren } from '@frontend/uikit-rbc/types';
 import { SummaryInfo } from '@features/StatusPageFeature/components/SummaryInfo';
 import { StatusGroupContainer } from '@features/StatusPageFeature/components/StatusGroupContainer';
 import { DetailedStatusCard } from '@features/StatusPageFeature/components/DetailedStatusCard';
 import { DetailedStatusFilter } from '@features/StatusPageFeature/components/DetailedStatusFilter';
+import { StatusPageContext } from '@context/StatusPageContext';
+import { SurveyResult } from '@models/surveyResult';
+import { formatDate } from '@frontend/utils';
 import styles from './styles.module.scss';
 
 /**
@@ -13,6 +16,22 @@ import styles from './styles.module.scss';
  */
 export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
   const [currentTab, setCurrentTab] = React.useState(0);
+  const { survey, results } = useContext(StatusPageContext);
+  const { _id: surveyId } = survey;
+
+  const filteredResults = results.filter((resultItem) => resultItem.surveyId === surveyId);
+
+  const groupedData = filteredResults.reduce((acc: Record<number, SurveyResult[]>, item) => {
+    const itemDate = new Date(item.timestamp).setHours(0, 0, 0, 0);
+
+    if (acc[itemDate]) {
+      acc[itemDate].push(item);
+    } else {
+      acc[itemDate] = [item];
+    }
+
+    return acc;
+  }, {});
 
   const tabList = ['Сводная статистика', 'Все ответы'];
 
@@ -38,9 +57,16 @@ export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
         {currentTab === 1 && (
           <>
             <DetailedStatusFilter />
-            <div className="headline-3 p-b-12">21 января 2023 г.</div>
-            <DetailedStatusCard />
-            <DetailedStatusCard />
+            {Object.entries(groupedData).map(([date, items]) => {
+              const dateAsNumber = `${formatDate(Number(date) / 1000, 'DD month YYYY')}  г.`;
+
+              return (
+                <>
+                  <div className="headline-3 p-b-12">{dateAsNumber}</div>
+                  <DetailedStatusCard results={items} />
+                </>
+              );
+            })}
           </>
         )}
       </div>

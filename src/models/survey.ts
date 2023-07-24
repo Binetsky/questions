@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 /**
  * Тип экземпляра опроса
@@ -43,7 +43,7 @@ export interface GroupItem extends CommonContent {
   id: number;
 }
 
-export const ChatsList = new Schema<SurveyItem>({
+export const Survey = new Schema<SurveyItem>({
   author: {
     type: String,
     required: true,
@@ -123,3 +123,5 @@ export const ChatsList = new Schema<SurveyItem>({
     required: true,
   },
 });
+
+export const SurveysListModel = model<QuestionItem>('surveys', Survey);

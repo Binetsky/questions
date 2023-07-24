@@ -18,7 +18,7 @@ export const StatusGroupContainer = () => {
 
         return (
           <div
-            className={`${styles['status-container']} m-b-24`}
+            className={`${styles['status-container']} m-b-24 p-24`}
             key={groupItem.id}
           >
             <div className="body-2">{groupItem.title}</div>
