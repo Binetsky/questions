@@ -8,6 +8,7 @@ import { DetailedStatusFilter } from '@features/StatusPageFeature/components/Det
 import { StatusPageContext } from '@context/StatusPageContext';
 import { SurveyResult } from '@models/surveyResult';
 import { formatDate } from '@frontend/utils';
+import { DateRange } from '@features/StatusPageFeature/types';
 import styles from './styles.module.scss';
 
 /**
@@ -16,10 +17,17 @@ import styles from './styles.module.scss';
  */
 export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
   const [currentTab, setCurrentTab] = React.useState(0);
+  const [dateRange, setDateRange] = React.useState<DateRange>({ from: new Date(1673384400).valueOf(), to: new Date().valueOf() });
   const { survey, results } = useContext(StatusPageContext);
   const { _id: surveyId } = survey;
 
-  const filteredResults = results.filter((resultItem) => resultItem.surveyId === surveyId);
+  const dateFilterHandler = ({ from, to }: DateRange) => {
+    setDateRange({ from, to });
+  };
+
+  const filteredResults = results.filter((resultItem) => (
+    resultItem.surveyId === surveyId && (resultItem.timestamp >= dateRange.from) && (resultItem.timestamp <= dateRange.to)
+  ));
 
   const groupedData = filteredResults.reduce((acc: Record<number, SurveyResult[]>, item) => {
     const itemDate = new Date(item.timestamp).setHours(0, 0, 0, 0);
@@ -32,6 +40,7 @@ export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
 
     return acc;
   }, {});
+  const groupedDataAsArray = Object.entries(groupedData).reverse();
 
   const tabList = ['Сводная статистика', 'Все ответы'];
 
@@ -56,8 +65,8 @@ export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
         )}
         {currentTab === 1 && (
           <>
-            <DetailedStatusFilter />
-            {Object.entries(groupedData).map(([date, items]) => {
+            <DetailedStatusFilter dateFilterHandler={dateFilterHandler} />
+            {groupedDataAsArray.map(([date, items]) => {
               const dateAsNumber = `${formatDate(Number(date) / 1000, 'DD month YYYY')}  г.`;
 
               return (

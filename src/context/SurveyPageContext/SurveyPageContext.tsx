@@ -58,6 +58,7 @@ export const SurveyPageProvider: React.FC<{ survey: SurveyItem; children?: React
 
   const handleSave = async (values: unknown) => {
     const readyResult: SurveyResult = {
+      surveySource: 'Страница опроса',
       surveyId: surveyId || 'lost',
       clientKey: 123,
       timestamp: new Date().valueOf(),

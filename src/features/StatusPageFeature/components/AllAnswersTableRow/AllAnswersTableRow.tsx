@@ -1,6 +1,7 @@
 import styles from '@features/StatusPageFeature/styles.module.scss';
-import React from 'react';
+import React, { useContext } from 'react';
 import { SurveyResult } from '@models/surveyResult';
+import { StatusPageContext } from '@context/StatusPageContext';
 
 interface AllAnswersTableRowProps {
   result: SurveyResult;
@@ -15,8 +16,9 @@ export const AllAnswersTableRow: React.FC<AllAnswersTableRowProps> = (props) => 
   const { result } = props;
   // Todo: вывести детализацию по результатам
   const {
-    meta, results, timestamp, clientKey, surveyId, surveySource, _id: resultId,
+    meta, results, timestamp, surveySource, _id: resultId,
   } = result;
+  const { survey: { questions, groups, answers } } = useContext(StatusPageContext);
   const currentHours = new Date(timestamp).getHours();
   const currentMinutes = new Date(timestamp).getMinutes();
   const separateCookies = meta.cookies.split('; ');
@@ -110,13 +112,71 @@ export const AllAnswersTableRow: React.FC<AllAnswersTableRowProps> = (props) => 
           )}
           {isAnswersOpen && (
             <>
-              <div className="headline-6">Группа 1</div>
-              <div className="flex w-100 p-y-12">
-                <div style={{ width: '40px', flex: 'none' }}>1</div>
-                <div className="w-40">Вопрос 1</div>
-                <div className="w-40">Ответ 1</div>
-                <div className="w-20">Открытый ответ</div>
-              </div>
+              {groups.map((groupItem) => {
+                const filteredQuestions = questions.filter((questionItem) => questionItem.groupId === groupItem.id);
+
+                return (
+                  <React.Fragment key={groupItem.id}>
+                    <div className="headline-6 m-t-24 m-b-12">{groupItem.title}</div>
+                    <div className="table-wrapper">
+                      <table className="table w-hover">
+                        <colgroup>
+                          <col width="36px" />
+                          <col />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Вопрос</th>
+                            <th>Ответ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredQuestions.map((questionItem, questionIndex) => {
+                            const filteredResult = results[questionItem.id];
+
+                            return (
+                              <tr key={questionItem.id}>
+                                <td>{questionIndex + 1}</td>
+                                <td>{questionItem.title}</td>
+                                <td>
+                                  {/* @ts-ignore */}
+                                  {filteredResult.map((resultItem) => {
+                                    const currentAnswer = answers.find((answerItem) => answerItem.id === resultItem);
+                                    const isOpenAnswer = currentAnswer?.answerType === 'open';
+                                    const answerTitle = isOpenAnswer ? results[resultItem] as unknown as number : currentAnswer?.title;
+
+                                    return (
+                                      <div
+                                        className="flex"
+                                        key={resultItem}
+                                      >
+                                        <div className="p-r-12 txt-secondary">
+                                          {isOpenAnswer ? 'Открытый' : 'Закрытый'}
+                                          {' '}
+                                          ответ
+                                        </div>
+                                        <div
+                                          className="m-b-8"
+                                          key={resultItem}
+                                        >
+                                          {answerTitle}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </React.Fragment>
+                );
+              })}
             </>
           )}
         </div>

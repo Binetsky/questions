@@ -27,11 +27,9 @@ const Index: NextPage<{ survey: SurveyItem; results: SurveyResult[] }> = ({ surv
  * Получение данных с бэка для заполнения опроса
  */
 export const getServerSideProps: GetServerSideProps<{ survey: SurveyItem; results: SurveyResult[] }> = async ({
-  req: {
-    url,
-  },
+  params,
 }) => {
-  const surveyId = url?.split('/')?.[2] || '#';
+  const surveyId = params?.id || '#';
 
   const survey = await fetch(`${API_URL}${ApiEndpoints.SurveyGet}/${surveyId}`).then((data) => data.json());
   const results: SurveyResult[] = await fetch(`${API_URL}${ApiEndpoints.ResultsAdmin}?filterField=surveyId&surveyId=${surveyId}`)

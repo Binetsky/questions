@@ -34,7 +34,10 @@ export const DetailedStatusCard: React.FC<DetailedStatusCardProps> = (props) => 
         </div>
       </div>
       {results.map((resultItem) => (
-        <AllAnswersTableRow result={resultItem} />
+        <AllAnswersTableRow
+          result={resultItem}
+          key={resultItem._id}
+        />
       ))}
     </div>
   );
