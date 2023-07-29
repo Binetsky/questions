@@ -28,3 +28,5 @@ export enum ApiEndpoints {
   SurveyGet = '/api/survey',
   ResultPost = '/api/results',
 }
+
+export const adminUserKey = 'SUPERADMIN111';

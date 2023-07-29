@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Collections } from '@constants';
+import { adminUserKey, Collections } from '@constants';
 import { apiHandler } from '@helpers/apiMethods/apiHandler';
 
 /**
@@ -11,6 +11,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  // Todo: тут надо прочитать userKey и решить дадим ли мы записать пользователю результат в бд
+  if (req.headers.userkey !== adminUserKey) {
+    res.status(403).json('403');
+    return;
+  }
+
+  // Todo: тут надо прочитать userkey и решить дадим ли мы записать пользователю результат в бд
   await apiHandler({ req, res, collectionName: Collections.Results });
 }

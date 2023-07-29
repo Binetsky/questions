@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Collections } from '@constants';
+import { adminUserKey, Collections } from '@constants';
 import { apiHandler } from '@helpers/apiMethods/apiHandler';
 
 /**
@@ -11,5 +11,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (req.headers.userkey !== adminUserKey) {
+    res.status(403).json('403');
+    return;
+  }
+
   await apiHandler({ req, res, collectionName: Collections.Results });
 }

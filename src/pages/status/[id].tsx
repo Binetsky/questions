@@ -5,7 +5,7 @@ import { StatusPageFeature } from '@features/StatusPageFeature';
 import { StatusPageProvider } from '@context/StatusPageContext';
 import { GetServerSideProps } from 'next';
 import { SurveyItem } from '@models/survey';
-import { API_URL, ApiEndpoints } from '@constants';
+import { adminUserKey, API_URL, ApiEndpoints } from '@constants';
 import { SurveyResult } from '@models/surveyResult';
 
 /**
@@ -31,9 +31,9 @@ export const getServerSideProps: GetServerSideProps<{ survey: SurveyItem; result
 }) => {
   const surveyId = params?.id || '#';
 
-  const survey = await fetch(`${API_URL}${ApiEndpoints.SurveyGet}/${surveyId}`).then((data) => data.json());
-  const results: SurveyResult[] = await fetch(`${API_URL}${ApiEndpoints.ResultsAdmin}?filterField=surveyId&surveyId=${surveyId}`)
-    .then((data) => data.json());
+  const survey = await fetch(`${API_URL}${ApiEndpoints.SurveyGet}/${surveyId}`, { headers: { userkey: adminUserKey } }).then((data) => data.json());
+  const results: SurveyResult[] = await fetch(`${API_URL}${ApiEndpoints.ResultsAdmin}?filterField=surveyId&surveyId=${surveyId}`,
+    { headers: { userkey: adminUserKey } }).then((data) => data.json());
 
   if (survey === '404' || survey === '403') {
     return {

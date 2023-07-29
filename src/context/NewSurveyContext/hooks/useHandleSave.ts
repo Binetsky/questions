@@ -1,7 +1,7 @@
 import { transformAnswersData, transformGroupsData, transformQuestionsData } from '@context/NewSurveyContext/helpers';
 import { SurveyItem } from '@models/survey';
 import { sendChanges } from '@helpers/sendChanges';
-import { ApiEndpoints } from '@constants';
+import { adminUserKey, ApiEndpoints } from '@constants';
 import { FieldValues } from 'react-hook-form';
 import { UseHandleSaveParams, UseHandleSaveReturn } from '@context/NewSurveyContext/types';
 
@@ -54,7 +54,7 @@ export const useHandleSave = (
       isDeleted: false,
     } as unknown as SurveyItem;
 
-    const savedSurvey = await sendChanges(`${ApiEndpoints.SurveysAdmin}`, readySurvey);
+    const savedSurvey = await sendChanges(`${ApiEndpoints.SurveysAdmin}`, { ...readySurvey, headers: { userkey: adminUserKey } });
 
     // Todo: в случае успеха сделать редирект на страницу просмотра статистики по созданному опросу
     console.log(savedSurvey);

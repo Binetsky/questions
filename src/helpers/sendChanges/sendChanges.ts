@@ -1,3 +1,5 @@
+import { adminUserKey } from '@constants';
+
 /**
  * Хелпер для отправки POST запроса по урлу
  * @param url: string
@@ -11,7 +13,7 @@ export const sendChanges = async (url: string, body?: unknown): Promise<any> => 
     return resWithBody.json();
   }
 
-  const res = await fetch(url, { method: 'POST' });
+  const res = await fetch(url, { method: 'POST', headers: { userkey: adminUserKey } });
 
   return res.json();
 };

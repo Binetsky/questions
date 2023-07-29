@@ -2,7 +2,7 @@ import React from 'react';
 import { TabPanel } from '@frontend/uikit-rbc/TabPanel';
 import { TableBody } from '@layout/TableBody';
 import { ComponentWithChildren } from '@frontend/uikit-rbc/types';
-import { ApiEndpoints } from '@constants';
+import { adminUserKey, ApiEndpoints } from '@constants';
 import { SurveyItem } from '@models/survey';
 import { SurveyResult } from '@models/surveyResult';
 import styles from './styles.module.scss';
@@ -21,8 +21,10 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
   const [results, setResults] = React.useState<SurveyResult[]>([]);
 
   const getSurveysList = async () => {
-    const responseSurveys: SurveyItem[] = await fetch(ApiEndpoints.SurveysAdmin).then((data) => data.json());
-    const responseResults: SurveyResult[] = await fetch(ApiEndpoints.ResultsAdmin).then((data) => data.json());
+    const responseSurveys: SurveyItem[] = await fetch(ApiEndpoints.SurveysAdmin, { headers: { userkey: adminUserKey } })
+      .then((data) => data.json());
+    const responseResults: SurveyResult[] = await fetch(ApiEndpoints.ResultsAdmin, { headers: { userkey: adminUserKey } })
+      .then((data) => data.json());
 
     setPublishedSurveys(responseSurveys.filter((responseItem) => responseItem.isPublished));
     setUnpublishedSurveys(responseSurveys.filter((responseItem) => !responseItem.isPublished && !responseItem.isArchived && !responseItem.isDeleted));
