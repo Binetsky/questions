@@ -1,4 +1,4 @@
-import { BasicGroupProps } from '@features/NewPageFeature/types';
+import { BasicGroupProps } from '@types';
 import { FieldValues } from 'react-hook-form';
 
 /**

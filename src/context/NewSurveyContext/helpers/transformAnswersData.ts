@@ -1,4 +1,4 @@
-import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
+import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@types';
 import { FieldValues } from 'react-hook-form';
 
 /**

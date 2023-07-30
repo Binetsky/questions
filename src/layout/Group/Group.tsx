@@ -1,10 +1,29 @@
-import styles from '@features/NewPageFeature/styles.module.scss';
 import React from 'react';
-import { Question } from '@features/NewPageFeature/components/Question';
-import { Title } from '@features/NewPageFeature/components/Title';
-import { GroupProps } from '@features/NewPageFeature/types';
-import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
-import { NewSurveyContext } from '@context/NewSurveyContext';
+import { Question } from '@layout/Question';
+import { Title } from '@layout/Title';
+import {
+  BasicAnswerProps,
+  BasicGroupProps,
+  BasicQuestionProps,
+  MoveComponentParams,
+} from '@types';
+import { MoveControls } from '@layout/MoveControls';
+import { Control, FieldValues } from 'react-hook-form';
+import styles from './styles.module.scss';
+
+export interface GroupProps extends BasicGroupProps {
+  placeNumber: number;
+  groupLength: number;
+  control: Control<FieldValues, unknown>;
+  questionArray: BasicQuestionProps[];
+  deleteGroupHandler: (idParam: number) => void;
+  addQuestionHandler: (groupIdParam: number) => void;
+  moveComponent: ({ fromIndex, toIndex, blockType }: MoveComponentParams) => void;
+  answersArray: BasicAnswerProps[];
+  addAnswerHandler: ({ questionIdParam, groupIdParam }: { questionIdParam: number; groupIdParam: number }) => void;
+  deleteQuestionHandler: (idParam: number) => void;
+  deleteAnswerHandler: (idParam: number) => void;
+}
 
 /**
  * Компонент заполнения группы вопросов
@@ -13,16 +32,10 @@ import { NewSurveyContext } from '@context/NewSurveyContext';
  */
 export const Group: React.FC<GroupProps> = (props) => {
   const {
-    placeNumber, id, groupLength,
+    placeNumber, id, groupLength, control, questionArray, deleteGroupHandler, addQuestionHandler, moveComponent,
+    answersArray, addAnswerHandler, deleteQuestionHandler, deleteAnswerHandler,
   } = props;
-  const {
-    control, questionArray, deleteGroupHandler, addQuestionHandler, moveComponent,
-  } = React.useContext(NewSurveyContext);
   const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === id);
-
-  if (!control) {
-    return null;
-  }
 
   return (
     <fieldset
@@ -44,6 +57,7 @@ export const Group: React.FC<GroupProps> = (props) => {
         deleteButtonHandler={groupLength > 1 ? deleteGroupHandler : undefined}
         titleName={`group-title-${id}`}
         subtitleName={`group-subtitle-${id}`}
+        control={control}
       />
       {currentQuestions && currentQuestions.map((questionItem, index) => (
         <Question
@@ -54,6 +68,12 @@ export const Group: React.FC<GroupProps> = (props) => {
           type={questionItem.type}
           key={id}
           questionLength={currentQuestions.length}
+          answersArray={answersArray}
+          addAnswerHandler={addAnswerHandler}
+          deleteQuestionHandler={deleteQuestionHandler}
+          moveComponent={moveComponent}
+          control={control}
+          deleteAnswerHandler={deleteAnswerHandler}
         />
       ))}
 

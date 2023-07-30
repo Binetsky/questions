@@ -30,3 +30,7 @@ export enum ApiEndpoints {
 }
 
 export const adminUserKey = 'SUPERADMIN111';
+
+export enum PageBodyType {
+  Default,
+}

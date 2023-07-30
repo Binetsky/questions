@@ -1,8 +1,8 @@
 import React from 'react';
 import { ComponentWithChildren } from '@frontend/uikit-rbc/types';
-import { IntroAndOutro } from '@features/NewPageFeature/components/IntroAndOutro/IntroAndOutro';
-import { ControlPanel } from '@features/NewPageFeature/components/ControlPanel';
-import { Group } from '@features/NewPageFeature/components/Group';
+import { IntroAndOutro } from '@layout/IntroAndOutro';
+import { ControlPanel } from '@layout/ControlPanel';
+import { Group } from '@layout/Group';
 import { NewSurveyContext } from '@context/NewSurveyContext';
 import styles from './styles.module.scss';
 
@@ -12,7 +12,8 @@ import styles from './styles.module.scss';
  */
 export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
   const {
-    handleSubmit, handleSave, handleSaveAndPublish, control, groupArray, addGroupHandler,
+    handleSubmit, handleSave, handleSaveAndPublish, control, groupArray, questionArray, answersArray, addGroupHandler, deleteGroupHandler,
+    addQuestionHandler, deleteQuestionHandler, addAnswerHandler, deleteAnswerHandler, moveComponent,
   } = React.useContext(NewSurveyContext);
 
   if (!handleSubmit || !control) {
@@ -34,6 +35,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
           subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
           titleName="intro-title"
           subtitleName="intro-subtitle"
+          control={control}
         />
 
         <IntroAndOutro
@@ -43,6 +45,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
           subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
           titleName="outro-title"
           subtitleName="outro-subtitle"
+          control={control}
         />
 
         {groupArray.map((groupItem, index) => (
@@ -52,6 +55,15 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
             type={groupItem.type}
             key={groupItem.id}
             groupLength={groupArray.length}
+            control={control}
+            addQuestionHandler={addQuestionHandler}
+            deleteGroupHandler={deleteGroupHandler}
+            questionArray={questionArray}
+            moveComponent={moveComponent}
+            addAnswerHandler={addAnswerHandler}
+            deleteQuestionHandler={deleteQuestionHandler}
+            answersArray={answersArray}
+            deleteAnswerHandler={deleteAnswerHandler}
           />
         ))}
 

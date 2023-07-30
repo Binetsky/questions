@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from '@features/NewPageFeature/styles.module.scss';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import { InputFieldController } from '@layout/InputFieldController';
-import { NewSurveyContext } from '@context/NewSurveyContext';
+import { Control, FieldValues } from 'react-hook-form';
+import styles from './styles.module.scss';
 
 interface TitleProps {
   header: string;
@@ -13,6 +13,9 @@ interface TitleProps {
   titleName: string;
   subtitleName: string;
   deleteButtonHandler?: (id: number) => void;
+  titleValue?: string | number;
+  subtitleValue?: string | number;
+  control: Control<FieldValues, unknown>;
 }
 
 /**
@@ -22,13 +25,8 @@ interface TitleProps {
  */
 export const Title: React.FC<TitleProps> = (props) => {
   const {
-    id, titlePlaceholder, subtitlePlaceholder, deleteButtonHandler, header, titleName, subtitleName,
+    id, titlePlaceholder, subtitlePlaceholder, deleteButtonHandler, header, titleName, subtitleName, titleValue, subtitleValue, control,
   } = props;
-  const { control } = React.useContext(NewSurveyContext);
-
-  if (!control) {
-    return null;
-  }
 
   return (
     <div className={`${styles['group-title']} p-b-24`}>
@@ -54,6 +52,7 @@ export const Title: React.FC<TitleProps> = (props) => {
         <InputFieldController
           control={control}
           name={titleName}
+          defaultValue={titleValue}
           placeholder={titlePlaceholder}
           size={FormElementSizes.Medium}
           type={InputType.Text}
@@ -69,6 +68,7 @@ export const Title: React.FC<TitleProps> = (props) => {
         <InputFieldController
           control={control}
           name={subtitleName}
+          defaultValue={subtitleValue}
           placeholder={subtitlePlaceholder}
           size={FormElementSizes.Medium}
           type={InputType.Text}

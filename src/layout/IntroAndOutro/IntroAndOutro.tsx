@@ -1,6 +1,7 @@
-import styles from '@features/NewPageFeature/styles.module.scss';
-import { Title } from '@features/NewPageFeature/components/Title';
+import { Title } from '@layout/Title';
 import React from 'react';
+import { Control, FieldValues } from 'react-hook-form';
+import styles from './styles.module.scss';
 
 interface IntroAndOutroProps {
   header: string;
@@ -9,6 +10,9 @@ interface IntroAndOutroProps {
   subtitlePlaceholder: string;
   titleName: string;
   subtitleName: string;
+  titleValue?: string | number;
+  subtitleValue?: string | number;
+  control: Control<FieldValues, unknown>;
 }
 
 /**
@@ -18,7 +22,7 @@ interface IntroAndOutroProps {
  */
 export const IntroAndOutro: React.FC<IntroAndOutroProps> = (props) => {
   const {
-    id, titlePlaceholder, subtitlePlaceholder, header, titleName, subtitleName,
+    id, titlePlaceholder, subtitlePlaceholder, header, titleName, subtitleName, titleValue, subtitleValue, control,
   } = props;
 
   return (
@@ -30,6 +34,9 @@ export const IntroAndOutro: React.FC<IntroAndOutroProps> = (props) => {
         subtitlePlaceholder={subtitlePlaceholder}
         titleName={titleName}
         subtitleName={subtitleName}
+        titleValue={titleValue}
+        subtitleValue={subtitleValue}
+        control={control}
       />
     </div>
   );

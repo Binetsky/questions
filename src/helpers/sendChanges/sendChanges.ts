@@ -8,7 +8,7 @@ import { adminUserKey } from '@constants';
  */
 export const sendChanges = async (url: string, body?: unknown): Promise<any> => {
   if (body) {
-    const resWithBody = await fetch(url, { method: 'POST', body: JSON.stringify(body) });
+    const resWithBody = await fetch(url, { method: 'POST', body: JSON.stringify(body), headers: { userkey: adminUserKey } });
 
     return resWithBody.json();
   }

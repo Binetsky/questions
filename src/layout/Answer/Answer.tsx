@@ -1,13 +1,23 @@
-import styles from '@features/NewPageFeature/styles.module.scss';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
 import React from 'react';
 import { DropdownSelectOptions } from '@frontend/uikit-rbc/DropdownSelect/types';
 import { InputFieldController } from '@layout/InputFieldController';
-import { AnswerProps } from '@features/NewPageFeature/types';
+import { BasicAnswerProps, MoveComponentParams } from '@types';
 import { DropdownSelectController } from '@layout/DropdownSelectController';
-import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
-import { NewSurveyContext } from '@context/NewSurveyContext';
+import { MoveControls } from '@layout/MoveControls';
+import { Control, FieldValues } from 'react-hook-form';
+import styles from './styles.module.scss';
+
+export interface AnswerProps extends BasicAnswerProps {
+  placeNumber: number;
+  actualIndex: number;
+  answerLength: number;
+  answersLength: number;
+  control: Control<FieldValues, unknown>;
+  deleteAnswerHandler: (idParam: number) => void;
+  moveComponent: ({ fromIndex, toIndex, blockType }: MoveComponentParams) => void;
+}
 
 /**
  * Компонент заполнения ответов на вопросы
@@ -16,12 +26,9 @@ import { NewSurveyContext } from '@context/NewSurveyContext';
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
   const {
-    id, placeNumber, groupId, questionId, answersLength,
+    id, placeNumber, groupId, questionId, answersLength, control, deleteAnswerHandler, moveComponent,
   } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
-  const {
-    control, deleteAnswerHandler, moveComponent,
-  } = React.useContext(NewSurveyContext);
 
   const isQuestionOpen = answerType.value === 'open';
 

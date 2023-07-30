@@ -1,5 +1,13 @@
-import { MoveControlsProps } from '@features/NewPageFeature/types';
 import React from 'react';
+import { BlockType, MoveComponentParams } from '@types';
+
+export interface MoveControlsProps {
+  currentIndex: number;
+  shouldLeftRender: boolean;
+  shouldRightRender: boolean;
+  moveComponent: (idParam: MoveComponentParams) => void;
+  blockType: BlockType;
+}
 
 /**
  * Компонент управления порядком блоков при создании опроса

@@ -1,5 +1,5 @@
 import { generateId } from '@utils/generateId';
-import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@features/NewPageFeature/types';
+import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@types';
 
 const groupId = generateId();
 const questionId = generateId();
@@ -22,5 +22,6 @@ export const initialQuestion: BasicQuestionProps = {
 export const initialAnswer: BasicAnswerProps = {
   id: generateId(),
   type: 'answer',
+  groupId,
   questionId,
 };

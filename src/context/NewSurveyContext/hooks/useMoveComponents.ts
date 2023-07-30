@@ -1,5 +1,5 @@
 import { CommonStatesAndDispatchers, UseMoveComponentsReturn } from '@context/NewSurveyContext/types';
-import { MoveComponentParams } from '@features/NewPageFeature/types';
+import { MoveComponentParams } from '@types';
 
 /**
  * Хук управления блоками групп

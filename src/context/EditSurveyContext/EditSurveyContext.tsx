@@ -1,26 +1,20 @@
 import React from 'react';
+import { SurveyItem } from '@models/survey';
 import {
   Control, FieldValues, useForm, UseFormHandleSubmit,
 } from 'react-hook-form';
-import {
-  BasicAnswerProps,
-  BasicGroupProps,
-  BasicQuestionProps,
-} from '@types';
-import {
-  CommonStatesAndDispatchers,
-  UseAnswersToggleReturn,
-  UseGroupsToggleReturn,
-  UseMoveComponentsReturn,
-  UseQuestionsToggleReturn,
-} from '@context/NewSurveyContext/types';
+import { BasicAnswerProps, BasicGroupProps, BasicQuestionProps } from '@types';
 import { useAnswersToggle, useGroupsToggle, useQuestionsToggle } from '@context/NewSurveyContext/hooks';
 import { useMoveComponents } from '@context/NewSurveyContext/hooks/useMoveComponents';
-import { useHandleSave } from '@context/NewSurveyContext/hooks/useHandleSave';
-import { initialAnswer, initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
+import {
+  CommonStatesAndDispatchers, UseAnswersToggleReturn,
+  UseGroupsToggleReturn, UseMoveComponentsReturn,
+  UseQuestionsToggleReturn,
+} from '@context/NewSurveyContext/types';
 
-interface NewSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleReturn,
+interface EditSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleReturn,
   UseQuestionsToggleReturn, UseAnswersToggleReturn, UseMoveComponentsReturn {
+  survey: SurveyItem | null;
   handleSave: (data: FieldValues) => Promise<void>;
   handleSaveAndPublish: () => void;
   handleSubmit?: UseFormHandleSubmit<FieldValues, undefined>;
@@ -30,7 +24,8 @@ interface NewSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleRetu
 /**
  * UserContextState - контекст текущего пользователя
  */
-const contextInitialState: NewSurveyState = {
+const contextInitialState: EditSurveyState = {
+  survey: null,
   addAnswerHandler: () => null,
   addGroupHandler: () => null,
   addQuestionHandler: () => null,
@@ -48,12 +43,13 @@ const contextInitialState: NewSurveyState = {
   moveComponent: () => null,
 };
 
-export const NewSurveyContext = React.createContext(contextInitialState);
+export const EditSurveyContext = React.createContext(contextInitialState);
 
 /**
  * UserContextProvider - провайдер контекста пользователя
  */
-export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: SurveyItem }> = ({ children, survey: initialSurvey }) => {
+  const [survey, setSurvey] = React.useState<SurveyItem | null>(initialSurvey);
   const [groupArray, setGroupArray] = React.useState<BasicGroupProps[]>([]);
   const [questionArray, setQuestionArray] = React.useState<BasicQuestionProps[]>([]);
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
@@ -74,10 +70,11 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
     groupArray, setGroupArray, questionArray, setQuestionArray, answersArray, setAnswersArray,
   });
 
+  // Todo: Обработчик сохранения должен быть свой изза перегона данных в хукформ и обратно, нужно перезаписывать существующий документ
   // хелпер приведения данных к модели и их сохранения в бд
-  const { handleSave } = useHandleSave({
-    groupArray, questionArray, answersArray, publishTimestamp,
-  });
+  const handleSave = (data: FieldValues) => {
+    console.log(data);
+  };
 
   // Хелпер сохранения с публикацией опроса
   const handleSaveAndPublish = () => {
@@ -87,13 +84,17 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
   };
 
   React.useEffect(() => {
-    setGroupArray([initialGroup]);
-    setQuestionArray([initialQuestion]);
-    setAnswersArray([initialAnswer]);
+    const { groups, questions, answers } = initialSurvey;
+
+    setSurvey(initialSurvey);
+    setGroupArray(groups.map((groupItem) => ({ ...groupItem, type: 'group' })));
+    setQuestionArray(questions.map((questionItem) => ({ ...questionItem, type: 'question' })));
+    setAnswersArray(answers.map((answerItem) => ({ ...answerItem, type: 'answer' })));
   }, []);
 
   return (
-    <NewSurveyContext.Provider value={{
+    <EditSurveyContext.Provider value={{
+      survey,
       addAnswerHandler,
       addGroupHandler,
       addQuestionHandler,
@@ -114,6 +115,6 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
     }}
     >
       {children}
-    </NewSurveyContext.Provider>
+    </EditSurveyContext.Provider>
   );
 };

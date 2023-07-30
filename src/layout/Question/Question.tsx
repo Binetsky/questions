@@ -1,13 +1,25 @@
-import styles from '@features/NewPageFeature/styles.module.scss';
 import React from 'react';
-import { Answer } from '@features/NewPageFeature/components/Answer';
-import { Title } from '@features/NewPageFeature/components/Title';
+import { Answer } from '@layout/Answer';
+import { Title } from '@layout/Title';
 import { FormElementSizes } from '@frontend/uikit-rbc/constants';
 import { InputType } from '@frontend/uikit-rbc/InputField/constants';
-import { QuestionProps } from '@features/NewPageFeature/types';
+import { BasicAnswerProps, BasicQuestionProps, MoveComponentParams } from '@types';
 import { InputFieldController } from '@layout/InputFieldController';
-import { MoveControls } from '@features/NewPageFeature/components/MoveControls';
-import { NewSurveyContext } from '@context/NewSurveyContext';
+import { MoveControls } from '@layout/MoveControls';
+import { Control, FieldValues } from 'react-hook-form';
+import styles from './styles.module.scss';
+
+export interface QuestionProps extends BasicQuestionProps {
+  placeNumber: number;
+  actualIndex: number;
+  questionLength: number;
+  control: Control<FieldValues, unknown>;
+  answersArray: BasicAnswerProps[];
+  addAnswerHandler: ({ questionIdParam, groupIdParam }: { questionIdParam: number; groupIdParam: number }) => void;
+  deleteQuestionHandler: (idParam: number) => void;
+  moveComponent: ({ fromIndex, toIndex, blockType }: MoveComponentParams) => void;
+  deleteAnswerHandler: (idParam: number) => void;
+}
 
 /**
  * Компонент заполнения вопроса
@@ -16,21 +28,15 @@ import { NewSurveyContext } from '@context/NewSurveyContext';
  */
 export const Question: React.FC<QuestionProps> = (props) => {
   const {
-    placeNumber, id, groupId, questionLength, actualIndex,
+    placeNumber, id, groupId, questionLength, actualIndex, control, answersArray, addAnswerHandler,
+    deleteQuestionHandler, moveComponent, deleteAnswerHandler,
   } = props;
-  const {
-    control, answersArray, addAnswerHandler, deleteQuestionHandler, moveComponent,
-  } = React.useContext(NewSurveyContext);
 
   const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === id);
 
   const deleteButtonHandler = (idParam: number) => {
     deleteQuestionHandler(idParam);
   };
-
-  if (!control) {
-    return null;
-  }
 
   return (
     <div className={`${styles.question} m-b-24`}>
@@ -49,6 +55,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
         deleteButtonHandler={questionLength > 1 ? deleteButtonHandler : undefined}
         titleName={`question-title-${groupId}-${id}`}
         subtitleName={`question-subtitle-${groupId}-${id}`}
+        control={control}
       />
 
       <div className="flex flex-middle p-b-12">
@@ -92,6 +99,9 @@ export const Question: React.FC<QuestionProps> = (props) => {
           key={answerItem.id}
           answerLength={filteredAnswers.length}
           answersLength={filteredAnswers.length}
+          deleteAnswerHandler={deleteAnswerHandler}
+          control={control}
+          moveComponent={moveComponent}
         />
       ))}
 

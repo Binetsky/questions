@@ -3,7 +3,7 @@ import {
   BasicGroupProps,
   BasicQuestionProps,
   MoveComponentParams,
-} from '@features/NewPageFeature/types';
+} from '@types';
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
 
