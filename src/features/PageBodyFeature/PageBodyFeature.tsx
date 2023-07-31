@@ -1,6 +1,8 @@
 import React from 'react';
 import { Header } from '@layout/Header';
 import { Footer } from '@layout/Footer';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import type { PageBodyFeatureProps } from './types';
 
 /**
@@ -10,10 +12,38 @@ import type { PageBodyFeatureProps } from './types';
  */
 export const PageBodyFeature: React.FC<PageBodyFeatureProps> = (props) => {
   const { children } = props;
+  const router = useRouter();
+
+  const title = () => {
+    if (router.pathname.includes('new')) {
+      return 'Создание опроса';
+    }
+
+    if (router.pathname.includes('edit')) {
+      return 'Редактирование опроса';
+    }
+
+    if (router.pathname.includes('status')) {
+      return 'Статистика по опросу';
+    }
+
+    if (router.pathname.includes('survey')) {
+      return 'Пройдите опрос';
+    }
+
+    return 'Главная';
+  };
 
   return (
     <>
       <div className="page">
+        <Head>
+          <title>
+            {title()}
+            {' '}
+            - РБК Опросы
+          </title>
+        </Head>
         <Header />
         {children}
         <Footer />

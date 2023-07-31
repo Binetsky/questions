@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import React from 'react';
 import { PageBodyFeature } from '@features/PageBodyFeature/PageBodyFeature';
 import { NewPageFeature } from '@features/NewPageFeature';
-import Head from 'next/head';
 import { NewSurveyProvider } from '@context/NewSurveyContext';
 
 /**
@@ -11,9 +10,6 @@ import { NewSurveyProvider } from '@context/NewSurveyContext';
  */
 const Index: NextPage = () => (
   <PageBodyFeature>
-    <Head>
-      <title>Создание опроса</title>
-    </Head>
     <NewSurveyProvider>
       <NewPageFeature />
     </NewSurveyProvider>
