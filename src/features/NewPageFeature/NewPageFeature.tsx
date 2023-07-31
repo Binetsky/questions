@@ -51,8 +51,7 @@ export const NewPageFeature:React.FC<ComponentWithChildren> = () => {
         {groupArray.map((groupItem, index) => (
           <Group
             placeNumber={index + 1}
-            id={groupItem.id}
-            type={groupItem.type}
+            groupItem={groupItem}
             key={groupItem.id}
             groupLength={groupArray.length}
             control={control}

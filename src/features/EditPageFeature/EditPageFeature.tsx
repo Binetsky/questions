@@ -2,6 +2,7 @@ import React from 'react';
 import { EditSurveyContext } from '@context/EditSurveyContext';
 import { ControlPanel } from '@layout/ControlPanel';
 import { IntroAndOutro } from '@layout/IntroAndOutro';
+import { Group } from '@layout/Group';
 import styles from './styles.module.scss';
 
 /**
@@ -10,7 +11,8 @@ import styles from './styles.module.scss';
  */
 export const EditPageFeature: React.FC = () => {
   const {
-    handleSubmit, control, handleSave, handleSaveAndPublish, survey,
+    handleSubmit, control, handleSave, handleSaveAndPublish, survey, groupArray, addQuestionHandler, deleteGroupHandler,
+    questionArray, moveComponent, addAnswerHandler, deleteQuestionHandler, answersArray, deleteAnswerHandler, addGroupHandler,
   } = React.useContext(EditSurveyContext);
 
   if (!handleSubmit || !control || !survey) {
@@ -50,6 +52,32 @@ export const EditPageFeature: React.FC = () => {
           titleValue={outro.title}
           subtitleValue={outro.subtitle || undefined}
         />
+
+        {groupArray.map((groupItem, index) => (
+          <Group
+            placeNumber={index + 1}
+            groupItem={groupItem}
+            key={groupItem.id}
+            groupLength={groupArray.length}
+            control={control}
+            addQuestionHandler={addQuestionHandler}
+            deleteGroupHandler={deleteGroupHandler}
+            questionArray={questionArray}
+            moveComponent={moveComponent}
+            addAnswerHandler={addAnswerHandler}
+            deleteQuestionHandler={deleteQuestionHandler}
+            answersArray={answersArray}
+            deleteAnswerHandler={deleteAnswerHandler}
+          />
+        ))}
+
+        <button
+          type="button"
+          className="button md tertiary"
+          onClick={addGroupHandler}
+        >
+          + Группа вопросов
+        </button>
       </form>
     </div>
   );

@@ -7,9 +7,12 @@ import { BasicAnswerProps, BasicQuestionProps, MoveComponentParams } from '@type
 import { InputFieldController } from '@layout/InputFieldController';
 import { MoveControls } from '@layout/MoveControls';
 import { Control, FieldValues } from 'react-hook-form';
+import { QuestionEditItem } from '@context/EditSurveyContext/types';
 import styles from './styles.module.scss';
 
-export interface QuestionProps extends BasicQuestionProps {
+export interface QuestionProps {
+  questionItem: BasicQuestionProps;
+  groupId: number;
   placeNumber: number;
   actualIndex: number;
   questionLength: number;
@@ -28,15 +31,17 @@ export interface QuestionProps extends BasicQuestionProps {
  */
 export const Question: React.FC<QuestionProps> = (props) => {
   const {
-    placeNumber, id, groupId, questionLength, actualIndex, control, answersArray, addAnswerHandler,
+    placeNumber, questionItem, groupId, questionLength, actualIndex, control, answersArray, addAnswerHandler,
     deleteQuestionHandler, moveComponent, deleteAnswerHandler,
   } = props;
 
-  const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === id);
+  const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === questionItem.id);
 
   const deleteButtonHandler = (idParam: number) => {
     deleteQuestionHandler(idParam);
   };
+
+  const extendedQuestionForEdit = questionItem as QuestionEditItem;
 
   return (
     <div className={`${styles.question} m-b-24`}>
@@ -48,27 +53,29 @@ export const Question: React.FC<QuestionProps> = (props) => {
         shouldLeftRender={placeNumber > 1}
       />
       <Title
-        id={id}
+        id={questionItem.id}
         titlePlaceholder="Здесь укажите вопрос"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         header={`Вопрос ${placeNumber}`}
         deleteButtonHandler={questionLength > 1 ? deleteButtonHandler : undefined}
-        titleName={`question-title-${groupId}-${id}`}
-        subtitleName={`question-subtitle-${groupId}-${id}`}
+        titleName={`question-title-${groupId}-${questionItem.id}`}
+        subtitleName={`question-subtitle-${groupId}-${questionItem.id}`}
         control={control}
+        titleValue={extendedQuestionForEdit?.title}
+        subtitleValue={extendedQuestionForEdit?.subtitle || undefined}
       />
 
       <div className="flex flex-middle p-b-12">
         <div className="m-r-12">Минимум возможных ответов</div>
         <InputFieldController
           control={control}
-          name={`question-min-answers-${groupId}-${id}`}
+          name={`question-min-answers-${groupId}-${questionItem.id}`}
           placeholder=""
           size={FormElementSizes.Medium}
           type={InputType.Text}
           style={{ width: '52px', flex: 'none' }}
           isDisabled={false}
-          defaultValue={1}
+          defaultValue={extendedQuestionForEdit?.minAnswers || 1}
           isRequired
         />
       </div>
@@ -77,13 +84,13 @@ export const Question: React.FC<QuestionProps> = (props) => {
         <div className="m-r-12">Максимум возможных ответов</div>
         <InputFieldController
           control={control}
-          name={`question-max-answers-${groupId}-${id}`}
+          name={`question-max-answers-${groupId}-${questionItem.id}`}
           placeholder=""
           size={FormElementSizes.Medium}
           type={InputType.Text}
           style={{ width: '52px', flex: 'none' }}
           isDisabled={false}
-          defaultValue={99}
+          defaultValue={extendedQuestionForEdit?.maxAnswers || 99}
           isRequired
         />
       </div>
@@ -92,10 +99,9 @@ export const Question: React.FC<QuestionProps> = (props) => {
         <Answer
           placeNumber={index + 1}
           actualIndex={answersArray.findIndex((commonAnswerItem) => commonAnswerItem.id === answerItem.id)}
-          id={answerItem.id}
-          type={answerItem.type}
+          answerItem={answerItem}
           groupId={groupId}
-          questionId={id}
+          questionId={questionItem.id}
           key={answerItem.id}
           answerLength={filteredAnswers.length}
           answersLength={filteredAnswers.length}
@@ -108,7 +114,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
       <button
         type="button"
         className="button md tertiary"
-        onClick={() => addAnswerHandler({ questionIdParam: id, groupIdParam: groupId })}
+        onClick={() => addAnswerHandler({ questionIdParam: questionItem.id, groupIdParam: groupId })}
       >
         + Вариант ответа
       </button>

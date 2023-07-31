@@ -7,9 +7,13 @@ import { BasicAnswerProps, MoveComponentParams } from '@types';
 import { DropdownSelectController } from '@layout/DropdownSelectController';
 import { MoveControls } from '@layout/MoveControls';
 import { Control, FieldValues } from 'react-hook-form';
+import { AnswerEditItem } from '@context/EditSurveyContext/types';
 import styles from './styles.module.scss';
 
-export interface AnswerProps extends BasicAnswerProps {
+export interface AnswerProps {
+  answerItem: BasicAnswerProps;
+  groupId: number;
+  questionId: number;
   placeNumber: number;
   actualIndex: number;
   answerLength: number;
@@ -26,7 +30,7 @@ export interface AnswerProps extends BasicAnswerProps {
  */
 export const Answer: React.FC<AnswerProps> = (props) => {
   const {
-    id, placeNumber, groupId, questionId, answersLength, control, deleteAnswerHandler, moveComponent,
+    answerItem, placeNumber, groupId, questionId, answersLength, control, deleteAnswerHandler, moveComponent,
   } = props;
   const [answerType, setAnswerType] = React.useState<DropdownSelectOptions>({ name: 'Закрытый ответ', value: 'closed' });
 
@@ -42,9 +46,7 @@ export const Answer: React.FC<AnswerProps> = (props) => {
     deleteAnswerHandler(idParam);
   };
 
-  if (!control) {
-    return null;
-  }
+  const extendedQuestionForEdit = answerItem as AnswerEditItem;
 
   return (
     <div className={`${styles.answer} m-b-24`}>
@@ -63,7 +65,7 @@ export const Answer: React.FC<AnswerProps> = (props) => {
           <button
             type="button"
             className="button sm tertiary square m-l-12"
-            onClick={() => deleteButtonHandler(id)}
+            onClick={() => deleteButtonHandler(answerItem.id)}
           >
             <i className="ra-icon-trash" />
           </button>
@@ -72,23 +74,29 @@ export const Answer: React.FC<AnswerProps> = (props) => {
       <div className="caption-2 p-b-8">
         answerId:
         {' '}
-        {id}
+        {answerItem.id}
       </div>
       <div className="flex flex-middle">
         <DropdownSelectController
-          name={`answer-type-${groupId}-${questionId}-${id}`}
+          name={`answer-type-${groupId}-${questionId}-${answerItem.id}`}
           control={control}
           isRequired={false}
           onChangeHandler={answerTypeChangeHandler}
+          defaultValue={extendedQuestionForEdit?.answerType ?
+            {
+              name: extendedQuestionForEdit.answerType === 'open' ? 'Открытый ответ' : 'Закрытый ответ',
+              value: extendedQuestionForEdit.answerType,
+            } : undefined}
         />
         <InputFieldController
           control={control}
-          name={`answer-${groupId}-${questionId}-${id}`}
+          name={`answer-${groupId}-${questionId}-${answerItem.id}`}
           placeholder={isQuestionOpen ? 'Ответ напишет сам респондент' : 'Напишите вариант ответа'}
           size={FormElementSizes.Medium}
           type={InputType.Text}
-          isDisabled={isQuestionOpen}
+          isDisabled={extendedQuestionForEdit?.answerType === 'open' || isQuestionOpen}
           isRequired={false}
+          defaultValue={extendedQuestionForEdit?.title}
         />
       </div>
     </div>

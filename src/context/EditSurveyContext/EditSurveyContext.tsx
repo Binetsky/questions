@@ -11,6 +11,7 @@ import {
   UseGroupsToggleReturn, UseMoveComponentsReturn,
   UseQuestionsToggleReturn,
 } from '@context/NewSurveyContext/types';
+import { useHandleSave } from '@context/NewSurveyContext/hooks/useHandleSave';
 
 interface EditSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleReturn,
   UseQuestionsToggleReturn, UseAnswersToggleReturn, UseMoveComponentsReturn {
@@ -70,11 +71,10 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
     groupArray, setGroupArray, questionArray, setQuestionArray, answersArray, setAnswersArray,
   });
 
-  // Todo: Обработчик сохранения должен быть свой изза перегона данных в хукформ и обратно, нужно перезаписывать существующий документ
   // хелпер приведения данных к модели и их сохранения в бд
-  const handleSave = (data: FieldValues) => {
-    console.log(data);
-  };
+  const { handleSave } = useHandleSave({
+    groupArray, questionArray, answersArray, publishTimestamp, surveyId: survey?._id,
+  });
 
   // Хелпер сохранения с публикацией опроса
   const handleSaveAndPublish = () => {

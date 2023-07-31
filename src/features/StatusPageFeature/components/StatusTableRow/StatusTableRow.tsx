@@ -47,7 +47,7 @@ export const StatusTableRow: React.FC<StatusTableBodyProps> = (props) => {
       <td>{answerType}</td>
       <td>{thisQuestionResultsTotal.thisAnswerTotal}</td>
       <td>
-        {thisAnswerTotalPercentage.toFixed(2)}
+        {thisAnswerTotalPercentage ? thisAnswerTotalPercentage.toFixed(2) : 0}
         %
       </td>
     </tr>

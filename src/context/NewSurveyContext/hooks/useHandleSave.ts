@@ -15,7 +15,7 @@ import { UseHandleSaveParams, UseHandleSaveReturn } from '@context/NewSurveyCont
  */
 export const useHandleSave = (
   {
-    groupArray, questionArray, answersArray, publishTimestamp,
+    groupArray, questionArray, answersArray, publishTimestamp, surveyId,
   }: UseHandleSaveParams,
 ): UseHandleSaveReturn => {
   const handleSave = async (data: FieldValues) => {
@@ -52,6 +52,7 @@ export const useHandleSave = (
       isArchived: false,
       isPublished: !!publishTimestamp,
       isDeleted: false,
+      _id: surveyId,
     } as unknown as SurveyItem;
 
     const savedSurvey = await sendChanges(`${ApiEndpoints.SurveysAdmin}`, readySurvey);

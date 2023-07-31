@@ -9,9 +9,11 @@ import {
 } from '@types';
 import { MoveControls } from '@layout/MoveControls';
 import { Control, FieldValues } from 'react-hook-form';
+import { GroupEditItem } from '@context/EditSurveyContext/types';
 import styles from './styles.module.scss';
 
-export interface GroupProps extends BasicGroupProps {
+export interface GroupProps {
+  groupItem: BasicGroupProps;
   placeNumber: number;
   groupLength: number;
   control: Control<FieldValues, unknown>;
@@ -32,15 +34,17 @@ export interface GroupProps extends BasicGroupProps {
  */
 export const Group: React.FC<GroupProps> = (props) => {
   const {
-    placeNumber, id, groupLength, control, questionArray, deleteGroupHandler, addQuestionHandler, moveComponent,
+    placeNumber, groupItem, groupLength, control, questionArray, deleteGroupHandler, addQuestionHandler, moveComponent,
     answersArray, addAnswerHandler, deleteQuestionHandler, deleteAnswerHandler,
   } = props;
-  const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === id);
+  const currentQuestions = questionArray.filter((questionItem) => questionItem.groupId === groupItem.id);
+
+  const extendedGroupForEdit = groupItem as GroupEditItem;
 
   return (
     <fieldset
       className={`${styles.group} m-b-24`}
-      id={`group-fieldset-${id}`}
+      id={`group-fieldset-${groupItem.id}`}
     >
       <MoveControls
         currentIndex={placeNumber - 1}
@@ -50,23 +54,24 @@ export const Group: React.FC<GroupProps> = (props) => {
         shouldLeftRender={placeNumber > 1}
       />
       <Title
-        id={id}
+        id={groupItem.id}
         header={`Группа ${placeNumber}`}
         titlePlaceholder="Озаглавьте группу вопросов, чтобы респондент с чем ему придется иметь дело далее"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         deleteButtonHandler={groupLength > 1 ? deleteGroupHandler : undefined}
-        titleName={`group-title-${id}`}
-        subtitleName={`group-subtitle-${id}`}
+        titleName={`group-title-${groupItem.id}`}
+        subtitleName={`group-subtitle-${groupItem.id}`}
         control={control}
+        titleValue={extendedGroupForEdit?.title}
+        subtitleValue={extendedGroupForEdit?.subtitle || undefined}
       />
       {currentQuestions && currentQuestions.map((questionItem, index) => (
         <Question
           placeNumber={index + 1}
           actualIndex={questionArray.findIndex((commonQuestionItem) => commonQuestionItem.id === questionItem.id)}
-          id={questionItem.id}
-          groupId={id}
-          type={questionItem.type}
-          key={id}
+          questionItem={questionItem}
+          groupId={groupItem.id}
+          key={groupItem.id}
           questionLength={currentQuestions.length}
           answersArray={answersArray}
           addAnswerHandler={addAnswerHandler}
@@ -80,7 +85,7 @@ export const Group: React.FC<GroupProps> = (props) => {
       <button
         type="button"
         className="button md tertiary"
-        onClick={() => addQuestionHandler(id)}
+        onClick={() => addQuestionHandler(groupItem.id)}
       >
         + Вопрос
       </button>

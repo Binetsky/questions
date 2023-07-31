@@ -2,13 +2,15 @@ import { Control, Controller, FieldValues } from 'react-hook-form';
 import React from 'react';
 import { DropdownSelect } from '@frontend/uikit-rbc/DropdownSelect';
 import { DropdownSelectOptions } from '@frontend/uikit-rbc/DropdownSelect/types';
+import { DropdownDefaultValue } from '@layout/DropdownSelectController/types';
 
 interface DropdownSelectControllerProps {
   name: string;
   control: Control<FieldValues, unknown>;
+  onChangeHandler: (event: DropdownSelectOptions | DropdownSelectOptions[] | null) => void;
   isRequired?: boolean;
   style?: React.CSSProperties;
-  onChangeHandler: (event: DropdownSelectOptions | DropdownSelectOptions[] | null) => void;
+  defaultValue?: DropdownDefaultValue;
 }
 
 /**
@@ -18,9 +20,9 @@ interface DropdownSelectControllerProps {
  */
 export const DropdownSelectController: React.FC<DropdownSelectControllerProps> = (props) => {
   const {
-    name, control, isRequired, style, onChangeHandler,
+    name, control, isRequired, style, onChangeHandler, defaultValue,
   } = props;
-  const defaultValue = { name: 'Закрытый ответ', value: 'closed' };
+  const currentDefaultValue = defaultValue || { name: 'Закрытый ответ', value: 'closed' };
 
   const answerTypeChangeHandler = (
     { value, onChange }: { value: DropdownSelectOptions | DropdownSelectOptions[] | null; onChange: (event: any) => void },
@@ -39,7 +41,7 @@ export const DropdownSelectController: React.FC<DropdownSelectControllerProps> =
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={currentDefaultValue}
       rules={{ required: isRequired }}
       render={({ field: { onChange, value } }) => (
         <DropdownSelect
