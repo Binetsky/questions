@@ -1,0 +1,11 @@
+.dropdown-actions {
+  &-button {}
+
+  &-list {
+    background-color: var(--bg-01-light-variable);
+    border: 1px solid var(--stroke-02-light-variable);
+  }
+
+  &-item {
+  }
+}

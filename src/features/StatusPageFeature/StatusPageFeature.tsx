@@ -9,6 +9,7 @@ import { StatusPageContext } from '@context/StatusPageContext';
 import { SurveyResult } from '@models/surveyResult';
 import { formatDate } from '@frontend/utils';
 import { DateRange } from '@features/StatusPageFeature/types';
+import { ActionPanel } from '@features/StatusPageFeature/components/ActionPanel';
 import styles from './styles.module.scss';
 
 /**
@@ -18,7 +19,9 @@ import styles from './styles.module.scss';
 export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
   const [currentTab, setCurrentTab] = React.useState(0);
   const [dateRange, setDateRange] = React.useState<DateRange>({ from: new Date(1673384400).valueOf(), to: new Date().valueOf() });
-  const { survey, results } = useContext(StatusPageContext);
+  const {
+    survey, results, handlePublish, handleDelete, handleArchive, notification,
+  } = useContext(StatusPageContext);
   const { _id: surveyId } = survey;
 
   const dateFilterHandler = ({ from, to }: DateRange) => {
@@ -48,9 +51,41 @@ export const StatusPageFeature:React.FC<ComponentWithChildren> = () => {
     setCurrentTab(tab);
   };
 
+  const getDropdownActions = () => {
+    if (survey.isPublished) {
+      return ([
+        { name: 'Редактировать', href: `/edit/${surveyId}` },
+        { name: 'Архивировать', onClick: () => handleArchive() },
+        { name: 'Удалить', onClick: () => handleDelete() },
+      ]);
+    }
+
+    if (survey.isArchived) {
+      return ([
+        { name: 'Удалить', onClick: () => handleDelete() },
+      ]);
+    }
+
+    return ([
+      { name: 'Редактировать', href: `/edit/${surveyId}` },
+      { name: 'Архивировать', onClick: () => handleArchive() },
+      { name: 'Удалить', onClick: () => handleDelete() },
+    ]);
+  };
+
+  const shouldPublishRender = !survey.isArchived && !survey.isDeleted;
+
   return (
     <div className={styles.main}>
       <div className={styles['main-content']}>
+        <ActionPanel
+          shouldPublishRender={shouldPublishRender}
+          shouldDropdownActionsRender={!survey.isDeleted}
+          isPublished={survey.isPublished}
+          dropdownActions={getDropdownActions()}
+          handlePublish={handlePublish}
+          notification={notification}
+        />
         <TabPanel
           tabList={tabList}
           activeTab={currentTab}

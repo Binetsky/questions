@@ -54,3 +54,15 @@ fieldset {
 .bg-secondary {
   background-color: var(--bg-02-light-variable);
 }
+.button {
+  align-items: center;
+  &.square {
+    &.sm {
+      padding: 12px;
+
+      i[class*='ra-icon-'] {
+        margin: 0;
+      }
+    }
+  }
+}

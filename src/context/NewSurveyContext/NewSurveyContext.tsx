@@ -61,6 +61,7 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
   const [questionArray, setQuestionArray] = React.useState<BasicQuestionProps[]>([]);
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
   const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(null);
+  const [firstPublishTimestamp, setFirstPublishTimestamp] = React.useState<number | null>(null);
   const { control, handleSubmit } = useForm({});
   const router = useRouter();
 
@@ -80,12 +81,15 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
 
   // хелпер приведения данных к модели и их сохранения в бд
   const { handleSave } = useHandleSave({
-    groupArray, questionArray, answersArray, publishTimestamp, redirect: () => router.push('/'),
+    groupArray, questionArray, answersArray, publishTimestamp, redirect: () => router.push('/'), firstPublishTimestamp,
   });
 
   // Хелпер сохранения с публикацией опроса
   const handleSaveAndPublish = () => {
-    setPublishTimestamp(new Date().valueOf());
+    const currentTimestamp = new Date().valueOf();
+
+    setPublishTimestamp(currentTimestamp);
+    setFirstPublishTimestamp(currentTimestamp);
     handleSubmit(handleSave);
   };
 
