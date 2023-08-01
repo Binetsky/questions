@@ -40,6 +40,8 @@ export interface UseHandleSaveParams {
   questionArray: BasicQuestionProps[];
   answersArray: BasicAnswerProps[];
   publishTimestamp: number | null;
+  firstPublishTimestamp: number | null;
+  redirect: () => void;
   surveyId?: string;
 }
 

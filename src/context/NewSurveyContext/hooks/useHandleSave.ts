@@ -15,7 +15,7 @@ import { UseHandleSaveParams, UseHandleSaveReturn } from '@context/NewSurveyCont
  */
 export const useHandleSave = (
   {
-    groupArray, questionArray, answersArray, publishTimestamp, surveyId,
+    groupArray, questionArray, answersArray, publishTimestamp, surveyId, redirect, firstPublishTimestamp,
   }: UseHandleSaveParams,
 ): UseHandleSaveReturn => {
   const handleSave = async (data: FieldValues) => {
@@ -42,7 +42,7 @@ export const useHandleSave = (
     const readySurvey = {
       createTimestamp: new Date().valueOf(),
       author: 'Константинопольский Константин Константинович',
-      firstPublishTimestamp: publishTimestamp,
+      firstPublishTimestamp,
       publishTimestamp,
       intro,
       outro,
@@ -57,8 +57,9 @@ export const useHandleSave = (
 
     const savedSurvey = await sendChanges(`${ApiEndpoints.SurveysAdmin}`, readySurvey);
 
-    // Todo: в случае успеха сделать редирект на страницу просмотра статистики по созданному опросу
-    console.log(savedSurvey);
+    if (savedSurvey) {
+      redirect();
+    }
   };
 
   return ({ handleSave });

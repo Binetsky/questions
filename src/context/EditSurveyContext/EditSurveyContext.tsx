@@ -12,12 +12,14 @@ import {
   UseQuestionsToggleReturn,
 } from '@context/NewSurveyContext/types';
 import { useHandleSave } from '@context/NewSurveyContext/hooks/useHandleSave';
+import { useRouter } from 'next/router';
 
 interface EditSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleReturn,
   UseQuestionsToggleReturn, UseAnswersToggleReturn, UseMoveComponentsReturn {
   survey: SurveyItem | null;
   handleSave: (data: FieldValues) => Promise<void>;
   handleSaveAndPublish: () => void;
+  isPublished: boolean;
   handleSubmit?: UseFormHandleSubmit<FieldValues, undefined>;
   control?: Control<FieldValues, unknown>;
 }
@@ -42,6 +44,7 @@ const contextInitialState: EditSurveyState = {
   setGroupArray: () => null,
   setQuestionArray: () => null,
   moveComponent: () => null,
+  isPublished: false,
 };
 
 export const EditSurveyContext = React.createContext(contextInitialState);
@@ -54,8 +57,10 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
   const [groupArray, setGroupArray] = React.useState<BasicGroupProps[]>([]);
   const [questionArray, setQuestionArray] = React.useState<BasicQuestionProps[]>([]);
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
-  const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(null);
+  const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(initialSurvey.publishTimestamp || null);
+  const [firstPublishTimestamp, setFirstPublishTimestamp] = React.useState<number | null>(initialSurvey.firstPublishTimestamp || null);
   const { control, handleSubmit } = useForm({});
+  const router = useRouter();
 
   const { addGroupHandler, deleteGroupHandler } = useGroupsToggle({
     groupArray, setGroupArray, questionArray, setQuestionArray, answersArray, setAnswersArray,
@@ -73,14 +78,22 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
 
   // хелпер приведения данных к модели и их сохранения в бд
   const { handleSave } = useHandleSave({
-    groupArray, questionArray, answersArray, publishTimestamp, surveyId: survey?._id,
+    groupArray,
+    questionArray,
+    answersArray,
+    publishTimestamp,
+    surveyId: survey?._id,
+    redirect: () => router.push('/'),
+    firstPublishTimestamp,
   });
 
   // Хелпер сохранения с публикацией опроса
   const handleSaveAndPublish = () => {
-    setPublishTimestamp(new Date().valueOf());
+    const currentTimestamp = new Date().valueOf();
+
+    setPublishTimestamp(currentTimestamp);
+    setFirstPublishTimestamp(firstPublishTimestamp || currentTimestamp);
     handleSubmit(handleSave);
-    console.log('handleSaveAndPublish');
   };
 
   React.useEffect(() => {
@@ -112,6 +125,7 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
       setAnswersArray,
       setGroupArray,
       setQuestionArray,
+      isPublished: !!publishTimestamp,
     }}
     >
       {children}

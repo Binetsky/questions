@@ -18,11 +18,13 @@ import { useAnswersToggle, useGroupsToggle, useQuestionsToggle } from '@context/
 import { useMoveComponents } from '@context/NewSurveyContext/hooks/useMoveComponents';
 import { useHandleSave } from '@context/NewSurveyContext/hooks/useHandleSave';
 import { initialAnswer, initialGroup, initialQuestion } from '@features/NewPageFeature/constants';
+import { useRouter } from 'next/router';
 
 interface NewSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleReturn,
   UseQuestionsToggleReturn, UseAnswersToggleReturn, UseMoveComponentsReturn {
   handleSave: (data: FieldValues) => Promise<void>;
   handleSaveAndPublish: () => void;
+  isPublished: boolean;
   handleSubmit?: UseFormHandleSubmit<FieldValues, undefined>;
   control?: Control<FieldValues, unknown>;
 }
@@ -46,6 +48,7 @@ const contextInitialState: NewSurveyState = {
   setGroupArray: () => null,
   setQuestionArray: () => null,
   moveComponent: () => null,
+  isPublished: false,
 };
 
 export const NewSurveyContext = React.createContext(contextInitialState);
@@ -59,6 +62,7 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
   const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(null);
   const { control, handleSubmit } = useForm({});
+  const router = useRouter();
 
   const { addGroupHandler, deleteGroupHandler } = useGroupsToggle({
     groupArray, setGroupArray, questionArray, setQuestionArray, answersArray, setAnswersArray,
@@ -76,14 +80,13 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
 
   // хелпер приведения данных к модели и их сохранения в бд
   const { handleSave } = useHandleSave({
-    groupArray, questionArray, answersArray, publishTimestamp,
+    groupArray, questionArray, answersArray, publishTimestamp, redirect: () => router.push('/'),
   });
 
   // Хелпер сохранения с публикацией опроса
   const handleSaveAndPublish = () => {
     setPublishTimestamp(new Date().valueOf());
     handleSubmit(handleSave);
-    console.log('handleSaveAndPublish');
   };
 
   React.useEffect(() => {
@@ -111,6 +114,7 @@ export const NewSurveyProvider: React.FC<{ children?: React.ReactNode }> = ({ ch
       setAnswersArray,
       setGroupArray,
       setQuestionArray,
+      isPublished: !!publishTimestamp,
     }}
     >
       {children}
