@@ -1,10 +1,12 @@
 import { TableRow } from '@layout/TableBody/components/TableRow';
 import { SurveyItem } from '@models/survey';
 import { SurveyResult } from '@models/surveyResult';
+import React from 'react';
 
 interface TableBodyProps {
   surveys: SurveyItem[];
   results: SurveyResult[];
+  isTableReady: boolean;
 }
 
 /**
@@ -13,7 +15,7 @@ interface TableBodyProps {
  * @constructor
  */
 export const TableBody = (props: TableBodyProps) => {
-  const { surveys, results } = props;
+  const { surveys, results, isTableReady } = props;
 
   return (
     <div className="table-wrapper">
@@ -50,7 +52,12 @@ export const TableBody = (props: TableBodyProps) => {
         </tbody>
       </table>
 
-      {surveys.length === 0 && <div className="body-5 p-12 txt-center txt-secondary">Тут, пока, пусто</div>}
+      {(isTableReady && surveys.length === 0) && <div className="body-5 p-12 txt-center txt-secondary">Тут, пока, пусто</div>}
+      {!isTableReady && (
+        <div className="body-5 p-12 txt-center txt-secondary">
+          <i className="ra-icon-loader-bold rotate block w-10 align-center" />
+        </div>
+      )}
     </div>
   );
 };

@@ -19,8 +19,11 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
   const [archivedSurveys, setArchivedSurveys] = React.useState<SurveyItem[]>([]);
   const [surveys, setSurveys] = React.useState<SurveyItem[]>([]);
   const [results, setResults] = React.useState<SurveyResult[]>([]);
+  const [isTableReady, setIsTableReady] = React.useState(false);
 
   const getSurveysList = async () => {
+    setIsTableReady(false);
+
     const responseSurveys: SurveyItem[] = await fetch(ApiEndpoints.SurveysAdmin, { headers: { userkey: adminUserKey } })
       .then((data) => data.json());
     const responseResults: SurveyResult[] = await fetch(ApiEndpoints.ResultsAdmin, { headers: { userkey: adminUserKey } })
@@ -32,6 +35,7 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
     setArchivedSurveys(responseSurveys.filter((responseItem) => responseItem.isArchived));
     setSurveys(responseSurveys);
     setResults(responseResults);
+    setIsTableReady(true);
   };
 
   const tabList = ['Опубликованные', 'Не опубликованные', 'Удаленные', 'Архив', 'Все'];
@@ -80,6 +84,7 @@ export const MainPageFeature:React.FC<ComponentWithChildren> = () => {
         <TableBody
           surveys={tableBodyContent(currentTab)}
           results={results}
+          isTableReady={isTableReady}
         />
       </div>
     </div>
