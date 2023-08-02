@@ -14,7 +14,7 @@ export const PageBodyFeature: React.FC<PageBodyFeatureProps> = (props) => {
   const { children } = props;
   const router = useRouter();
 
-  const title = () => {
+  const title = (() => {
     if (router.pathname.includes('new')) {
       return 'Создание опроса';
     }
@@ -32,17 +32,14 @@ export const PageBodyFeature: React.FC<PageBodyFeatureProps> = (props) => {
     }
 
     return 'Главная';
-  };
+  })();
+  const titleString = `${title} - РБК Опросы`;
 
   return (
     <>
       <div className="page">
         <Head>
-          <title>
-            {title()}
-            {' '}
-            - РБК Опросы
-          </title>
+          <title>{titleString}</title>
         </Head>
         <Header />
         {children}
