@@ -7,6 +7,7 @@ export interface SurveyItem {
   _id?: string;
   createTimestamp: number;
   author: string;
+  surveyStartCount: number;
   firstPublishTimestamp: number | null;
   publishTimestamp: number | null;
   intro: CommonContent;
@@ -49,6 +50,10 @@ export const Survey = new Schema<SurveyItem>({
     required: true,
   },
   createTimestamp: {
+    type: Number,
+    required: true,
+  },
+  surveyStartCount: {
     type: Number,
     required: true,
   },

@@ -16,6 +16,9 @@ export default async function handler(
     return;
   }
 
-  // Todo: тут надо прочитать userkey и решить дадим ли мы записать пользователю результат в бд
+  res.setHeader('Set-Cookie', [
+    `${JSON.parse(req.body).surveyId}=true; Path=/; Max-Age=3600`,
+  ]);
+
   await apiHandler({ req, res, collectionName: Collections.Results });
 }

@@ -3,22 +3,29 @@ import { Footer } from '@layout/Footer';
 import { SurveyHeader } from '@features/SurveyPageFeature/components/SurveyHeader';
 import { SurveyBody } from '@features/SurveyPageFeature/components/SurveyBody';
 import { SurveyPageContext } from '@context/SurveyPageContext';
+import { StopLayout } from '@features/SurveyPageFeature/components/StopLayout';
 
 /**
  * Страница прохождения опроса через интерфейс приложения
  * @constructor
  */
 export const SurveyPageFeature: React.FC = () => {
-  const { groupLength, currentLayoutNumber } = React.useContext(SurveyPageContext);
+  const [isSurveyDone, setIsSurveyDone] = React.useState(false);
+  const { groupLength, currentLayoutNumber, survey: { _id: surveyId } } = React.useContext(SurveyPageContext);
   const progress = groupLength / currentLayoutNumber;
 
   // Todo: При старте опроса отправляем запрос на бэк с метаданными для записи инфы что кто-то стартовал опрос
-  // Todo: При прохождении опроса навешиваем куку и если она есть, то при повторном старте опроса не даем его пройти
+
+  React.useEffect(() => {
+    if (document && surveyId) {
+      setIsSurveyDone(document.cookie.includes(surveyId));
+    }
+  }, []);
 
   return (
     <div className="page">
       <SurveyHeader progress={progress} />
-      <SurveyBody />
+      {isSurveyDone ? <StopLayout /> : <SurveyBody />}
       <Footer />
     </div>
   );

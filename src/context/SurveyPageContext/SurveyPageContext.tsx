@@ -21,6 +21,7 @@ interface SurveyPageState {
 
 const surveyPageInitialState: SurveyItem = {
   createTimestamp: 0,
+  surveyStartCount: 0,
   author: 'unknown',
   firstPublishTimestamp: null,
   publishTimestamp: null,
@@ -72,11 +73,25 @@ export const SurveyPageProvider: React.FC<{ survey: SurveyItem; children?: React
 
     const savedResult = await sendChanges(`${ApiEndpoints.ResultPost}`, readyResult);
 
-    console.log(1, savedResult);
+    if (savedResult) {
+      console.log('Результаты опроса успешно сохранены');
+    }
   };
 
-  const changeLayoutHandler = () => {
+  const changeLayoutHandler = async () => {
     setCurrentLayoutNumber(currentLayoutNumber + 1);
+
+    if (currentLayoutNumber === 0) {
+      const readySurvey = {
+        ...survey,
+        surveyStartCount: survey.surveyStartCount ? (survey.surveyStartCount + 1) : 1,
+      };
+      const savedSurvey = await sendChanges(`${ApiEndpoints.SurveysAdmin}`, readySurvey);
+
+      if (savedSurvey) {
+        console.log('Счетчик начала прохождения увеличен');
+      }
+    }
 
     if (currentLayoutNumber === groupLength) {
       handleSubmit(handleSave)();

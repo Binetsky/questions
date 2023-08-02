@@ -41,6 +41,7 @@ export const useHandleSave = (
 
     const readySurvey = {
       createTimestamp: new Date().valueOf(),
+      surveyStartCount: 0,
       author: 'Константинопольский Константин Константинович',
       firstPublishTimestamp,
       publishTimestamp,

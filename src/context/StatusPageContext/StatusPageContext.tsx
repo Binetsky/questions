@@ -15,6 +15,7 @@ interface StatusPageState {
 
 const statusPageInitialState: SurveyItem = {
   createTimestamp: 0,
+  surveyStartCount: 0,
   author: 'unknown',
   firstPublishTimestamp: null,
   publishTimestamp: null,

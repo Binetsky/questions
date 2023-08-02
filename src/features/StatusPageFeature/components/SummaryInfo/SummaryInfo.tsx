@@ -51,7 +51,7 @@ export const SummaryInfo = () => {
       <div className="p-b-8">
         Опрос начат, раз:
         {' '}
-        {surveyFinishedTimes}
+        {survey.surveyStartCount || '0'}
       </div>
       <div className="p-b-8">
         Дата публикации:
