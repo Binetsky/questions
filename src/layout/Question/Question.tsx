@@ -19,9 +19,9 @@ export interface QuestionProps {
   control: Control<FieldValues, unknown>;
   answersArray: BasicAnswerProps[];
   addAnswerHandler: ({ questionIdParam, groupIdParam }: { questionIdParam: number; groupIdParam: number }) => void;
-  deleteQuestionHandler: (idParam: number) => void;
+  deleteQuestionHandler?: (idParam: number) => void;
   moveComponent: ({ fromIndex, toIndex, blockType }: MoveComponentParams) => void;
-  deleteAnswerHandler: (idParam: number) => void;
+  deleteAnswerHandler?: (idParam: number) => void;
 }
 
 /**
@@ -38,7 +38,9 @@ export const Question: React.FC<QuestionProps> = (props) => {
   const filteredAnswers = answersArray.filter((answerItem) => answerItem.questionId === questionItem.id);
 
   const deleteButtonHandler = (idParam: number) => {
-    deleteQuestionHandler(idParam);
+    if (deleteQuestionHandler) {
+      deleteQuestionHandler(idParam);
+    }
   };
 
   const extendedQuestionForEdit = questionItem as QuestionEditItem;
@@ -57,7 +59,7 @@ export const Question: React.FC<QuestionProps> = (props) => {
         titlePlaceholder="Здесь укажите вопрос"
         subtitlePlaceholder="Необязательный подзаголовок для уточняющей информации респонденту"
         header={`Вопрос ${placeNumber}`}
-        deleteButtonHandler={questionLength > 1 ? deleteButtonHandler : undefined}
+        deleteButtonHandler={questionLength > 1 && deleteQuestionHandler ? deleteButtonHandler : undefined}
         titleName={`question-title-${groupId}-${questionItem.id}`}
         subtitleName={`question-subtitle-${groupId}-${questionItem.id}`}
         control={control}

@@ -19,7 +19,7 @@ interface EditSurveyState extends CommonStatesAndDispatchers, UseGroupsToggleRet
   survey: SurveyItem | null;
   handleSave: (data: FieldValues) => Promise<void>;
   handleSaveAndPublish: () => void;
-  isPublished: boolean;
+  isPreviouslyPublished: boolean;
   handleSubmit?: UseFormHandleSubmit<FieldValues, undefined>;
   control?: Control<FieldValues, unknown>;
 }
@@ -44,7 +44,7 @@ const contextInitialState: EditSurveyState = {
   setGroupArray: () => null,
   setQuestionArray: () => null,
   moveComponent: () => null,
-  isPublished: false,
+  isPreviouslyPublished: false,
 };
 
 export const EditSurveyContext = React.createContext(contextInitialState);
@@ -57,6 +57,7 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
   const [groupArray, setGroupArray] = React.useState<BasicGroupProps[]>([]);
   const [questionArray, setQuestionArray] = React.useState<BasicQuestionProps[]>([]);
   const [answersArray, setAnswersArray] = React.useState<BasicAnswerProps[]>([]);
+  const [isPreviouslyPublished, setIsPreviouslyPublished] = React.useState<boolean>(false);
   const [publishTimestamp, setPublishTimestamp] = React.useState<number | null>(initialSurvey.publishTimestamp || null);
   const [firstPublishTimestamp, setFirstPublishTimestamp] = React.useState<number | null>(initialSurvey.firstPublishTimestamp || null);
   const { control, handleSubmit } = useForm({});
@@ -100,6 +101,7 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
     const { groups, questions, answers } = initialSurvey;
 
     setSurvey(initialSurvey);
+    setIsPreviouslyPublished(!!initialSurvey?.firstPublishTimestamp);
     setGroupArray(groups.map((groupItem) => ({ ...groupItem, type: 'group' })));
     setQuestionArray(questions.map((questionItem) => ({ ...questionItem, type: 'question' })));
     setAnswersArray(answers.map((answerItem) => ({ ...answerItem, type: 'answer' })));
@@ -125,7 +127,7 @@ export const EditSurveyProvider: React.FC<{ children?: React.ReactNode; survey: 
       setAnswersArray,
       setGroupArray,
       setQuestionArray,
-      isPublished: !!publishTimestamp,
+      isPreviouslyPublished,
     }}
     >
       {children}

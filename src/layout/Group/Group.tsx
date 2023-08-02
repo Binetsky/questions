@@ -18,13 +18,13 @@ export interface GroupProps {
   groupLength: number;
   control: Control<FieldValues, unknown>;
   questionArray: BasicQuestionProps[];
-  deleteGroupHandler: (idParam: number) => void;
+  deleteGroupHandler?: (idParam: number) => void;
   addQuestionHandler: (groupIdParam: number) => void;
   moveComponent: ({ fromIndex, toIndex, blockType }: MoveComponentParams) => void;
   answersArray: BasicAnswerProps[];
   addAnswerHandler: ({ questionIdParam, groupIdParam }: { questionIdParam: number; groupIdParam: number }) => void;
-  deleteQuestionHandler: (idParam: number) => void;
-  deleteAnswerHandler: (idParam: number) => void;
+  deleteQuestionHandler?: (idParam: number) => void;
+  deleteAnswerHandler?: (idParam: number) => void;
 }
 
 /**

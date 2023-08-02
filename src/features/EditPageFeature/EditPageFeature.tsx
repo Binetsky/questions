@@ -13,6 +13,7 @@ export const EditPageFeature: React.FC = () => {
   const {
     handleSubmit, control, handleSave, handleSaveAndPublish, survey, groupArray, addQuestionHandler, deleteGroupHandler,
     questionArray, moveComponent, addAnswerHandler, deleteQuestionHandler, answersArray, deleteAnswerHandler, addGroupHandler,
+    isPreviouslyPublished,
   } = React.useContext(EditSurveyContext);
 
   if (!handleSubmit || !control || !survey) {
@@ -23,6 +24,12 @@ export const EditPageFeature: React.FC = () => {
 
   return (
     <div className={styles.main}>
+      {isPreviouslyPublished && (
+        <div className="p-b-24 flex-middle">
+          <i className="ra-icon-info m-r-8" />
+          Удаление блоков отключено для ранее опубликованных опросов, чтобы не влиять на конечную статистику
+        </div>
+      )}
       <form
         className={styles['main-content']}
         onSubmit={handleSubmit(handleSave)}
@@ -61,13 +68,13 @@ export const EditPageFeature: React.FC = () => {
             groupLength={groupArray.length}
             control={control}
             addQuestionHandler={addQuestionHandler}
-            deleteGroupHandler={deleteGroupHandler}
+            deleteGroupHandler={isPreviouslyPublished ? undefined : deleteGroupHandler}
             questionArray={questionArray}
             moveComponent={moveComponent}
             addAnswerHandler={addAnswerHandler}
-            deleteQuestionHandler={deleteQuestionHandler}
+            deleteQuestionHandler={isPreviouslyPublished ? undefined : deleteQuestionHandler}
             answersArray={answersArray}
-            deleteAnswerHandler={deleteAnswerHandler}
+            deleteAnswerHandler={isPreviouslyPublished ? undefined : deleteAnswerHandler}
           />
         ))}
 

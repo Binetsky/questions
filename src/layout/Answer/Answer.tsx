@@ -19,7 +19,7 @@ export interface AnswerProps {
   answerLength: number;
   answersLength: number;
   control: Control<FieldValues, unknown>;
-  deleteAnswerHandler: (idParam: number) => void;
+  deleteAnswerHandler?: (idParam: number) => void;
   moveComponent: ({ fromIndex, toIndex, blockType }: MoveComponentParams) => void;
 }
 
@@ -43,7 +43,9 @@ export const Answer: React.FC<AnswerProps> = (props) => {
   };
 
   const deleteButtonHandler = (idParam: number) => {
-    deleteAnswerHandler(idParam);
+    if (deleteAnswerHandler) {
+      deleteAnswerHandler(idParam);
+    }
   };
 
   const extendedQuestionForEdit = answerItem as AnswerEditItem;
@@ -61,7 +63,7 @@ export const Answer: React.FC<AnswerProps> = (props) => {
         Ответ
         {' '}
         {placeNumber}
-        {answersLength > 1 && (
+        {(answersLength > 1 && deleteAnswerHandler) && (
           <button
             type="button"
             className="button sm tertiary square m-l-12"
